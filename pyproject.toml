@@ -1,9 +1,12 @@
 [tool.poetry]
-name = "tiralabra"
+name = "src"
 version = "0.1.0"
 description = ""
 authors = ["Kalle Hahl <kalle.hahl@hotmail.com>"]
 readme = "README.md"
+packages = [
+    { include = "postfix" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
