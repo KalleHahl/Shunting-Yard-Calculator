@@ -1,6 +1,7 @@
 
 from collections import deque
 
+
 def to_postfix(string):
     operators = '+-^*/()'
     equation = deque(string)
@@ -58,6 +59,9 @@ def to_postfix(string):
                         the_stack.append(operator)
 
             elif char == '^':
+                if operator_stack[-1] == char:
+                    operator = operator_stack.pop()
+                    the_stack.append(operator)
                 operator_stack.append(char)
         
         if len(equation) == 0:
@@ -70,7 +74,6 @@ def to_postfix(string):
     return the_stack
 
 
-print(to_postfix('( 1 + 2 ) ^ ( 3 / 4 ) * ( 5 + 6 )'))
-print(to_postfix('5 + (1 + 2) * 4 - 3'))
-print(to_postfix('10^10'))
-    
+
+
+

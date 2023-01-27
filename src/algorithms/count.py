@@ -1,5 +1,7 @@
 from collections import deque
 import operator
+from src.algorithms.postfix import to_postfix
+
 
 def count(postfix):
 
@@ -30,11 +32,6 @@ def count(postfix):
 
     return the_stack.pop()
 
-
-
-print(count(deque(['3', '4', '5', '*', '+'])))
-print(count(deque(['5', '1', '2', '+', '4', '*', '3', '-', '+'])))
-print(count(deque(['1', '2', '+', '3', '4', '/', '^', '5', '6', '+', '*'])))
-print(count(deque(['3', '5', '2', '^', '+'])))
-print(count(deque(['5', '5', '^'])))
+print(to_postfix('(1+2)*(10/2)^(2+1)'))
+print(count(to_postfix('(1+2)*(10/2)^(2+1)')))
 
