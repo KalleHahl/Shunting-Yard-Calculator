@@ -1,7 +1,7 @@
 import unittest
 from src.algorithms.count import count
 from src.algorithms.postfix import to_postfix
-from collections import deque
+
 
 class Test_Count(unittest.TestCase):
 
@@ -43,3 +43,5 @@ class Test_Count(unittest.TestCase):
         result = self.test(to_postfix('(1+2)*(10/2)^(2+1)'))
 
         self.assertEqual(result, 375)
+
+print(count(to_postfix('5+5+5+5')))
