@@ -1,6 +1,5 @@
 from collections import deque
 
-
 def to_postfix(string):
     operators = '+-^*/()'
     equation = deque(string)
@@ -12,8 +11,8 @@ def to_postfix(string):
     while len(equation) != 0:
 
         char = equation.popleft()
-        
-        if char.isdigit():
+
+        if char.isdigit() or char=='.':
             num += char
 
         elif char in operators:
@@ -31,48 +30,44 @@ def to_postfix(string):
                     operator_stack.append(char)
                 else:
                     operator_stack.append(char)
-            
+
             elif char in '*/':
                 if len(operator_stack) == 0:
                     operator_stack.append(char)
                     continue
-                elif operator_stack[-1] in '+-':
+                if operator_stack[-1] in '+-':
                     operator_stack.append(char)
                     continue
-                elif operator_stack[-1] == '(':
+                if operator_stack[-1] == '(':
                     operator_stack.append(char)
                     continue
                 operator = operator_stack.pop()
                 the_stack.append(operator)
                 operator_stack.append(char)
-                
+
             elif char == '(':
                 operator_stack.append(char)
-            
+
             elif char == ')':
                 while True:
                     operator = operator_stack.pop()
                     if operator == '(':
                         break
-                    else:
-                        the_stack.append(operator)
+                    the_stack.append(operator)
 
             elif char == '^':
                 if operator_stack[-1] == char:
                     operator = operator_stack.pop()
                     the_stack.append(operator)
                 operator_stack.append(char)
-        
+
         if len(equation) == 0:
             if len(num) != 0:
                 the_stack.append(num)
             while len(operator_stack) != 0:
                 operator = operator_stack.pop()
                 the_stack.append(operator)
-        
+
     return the_stack
 
-
-
-
-
+print(to_postfix('1.2+4'))
