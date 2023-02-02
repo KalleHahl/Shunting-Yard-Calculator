@@ -1,7 +1,7 @@
 from collections import deque
 import operator
+import math
 from src.algorithms.postfix import to_postfix
-
 
 def count(postfix):
 
@@ -10,7 +10,10 @@ def count(postfix):
         '-': operator.sub,
         '*': operator.mul,
         '/': operator.truediv,
-        '^': operator.pow
+        '^': operator.pow,
+        'sin': math.sin,
+        'cos': math.cos,
+        'tan': math.tan
     }
 
     the_stack = deque()
@@ -19,7 +22,14 @@ def count(postfix):
         char = postfix.popleft()
 
         if char in operators:
+
             operation = operators.get(char)
+
+            if char in 'sincostan':
+                number = the_stack.pop()
+                value = operation(number)
+                the_stack.append(value)
+                continue
 
             right = the_stack.pop()
             left = the_stack.pop()
@@ -32,6 +42,4 @@ def count(postfix):
             
     return the_stack.pop()
 
-
-print(count(to_postfix('1.2+4')))
-
+print(count(to_postfix('2+4*cos(8)-3')))

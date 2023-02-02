@@ -1,7 +1,9 @@
 from collections import deque
+from string import ascii_letters
 
 def to_postfix(string):
     operators = '+-^*/()'
+    other_operators = 'sincostan'
     equation = deque(string)
     operator_stack = deque()
     the_stack = deque()
@@ -14,11 +16,24 @@ def to_postfix(string):
 
         if char.isdigit() or char=='.':
             num += char
+        
+        elif char in ascii_letters:
+            if num.isdigit():
+                the_stack.append(num)
+                num = char
+            else:
+                num += char
+                
+            
 
         elif char in operators:
             if len(num) != 0:
-                the_stack.append(num)
-                num = ''
+                if num in other_operators:
+                    operator_stack.append(num)
+                    num = ''
+                else:
+                    the_stack.append(num)
+                    num = ''
 
             if char in '+-':
                 if len(operator_stack) == 0:
@@ -49,6 +64,12 @@ def to_postfix(string):
                 operator_stack.append(char)
 
             elif char == ')':
+                if operator_stack[-1] == '(':
+                    operator_stack.pop()
+                    operator = operator_stack.pop()
+                    the_stack.append(operator)
+                    continue
+
                 while True:
                     operator = operator_stack.pop()
                     if operator == '(':
@@ -60,6 +81,9 @@ def to_postfix(string):
                     operator = operator_stack.pop()
                     the_stack.append(operator)
                 operator_stack.append(char)
+        
+        
+    
 
         if len(equation) == 0:
             if len(num) != 0:
@@ -69,5 +93,4 @@ def to_postfix(string):
                 the_stack.append(operator)
 
     return the_stack
-
-print(to_postfix('1.2+4'))
+print(to_postfix('2+4*cos(8)-3'))
