@@ -15,27 +15,17 @@ def to_postfix(string):
         # if the input string has been iterated, check if there is anything in num and then add all operators from the operator stack to the_stack
         if len(equation) == 0:
             if len(num) != 0:
-                print('juu')
                 the_stack.append(num)
             while len(operator_stack) != 0:
-                print('juu')
                 operator = operator_stack.pop()
                 the_stack.append(operator)
             break
 
         char = equation.popleft()
 
-        if char.isdigit() or char=='.':
+        if char.isdigit() or char=='.' or char in other_operators:
             num += char
-        
-        elif char in ascii_letters:
-            if num.isdigit():
-                the_stack.append(num)
-                num = char
-            else:
-                num += char
-                
-            
+                    
 
         elif char in operators:
             if len(num) != 0:
