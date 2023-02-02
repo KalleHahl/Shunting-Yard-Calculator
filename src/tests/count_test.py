@@ -57,3 +57,11 @@ class Test_Count(unittest.TestCase):
         result = self.test(to_postfix('2*8/4'))
 
         self.assertEqual(result, 4)
+
+    # test correct value for cosin
+    def test_cos(self):
+
+        result = self.test(to_postfix('2*cos(4)'))
+
+        self.assertEqual(result, -1.3072872417272239)
+    

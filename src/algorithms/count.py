@@ -42,4 +42,4 @@ def count(postfix):
             
     return the_stack.pop()
 
-print(count(to_postfix('2+4*cos(8)-3')))
+print(count(to_postfix('2*cos(4)')))

@@ -10,7 +10,18 @@ def to_postfix(string):
 
     num = ''
 
-    while len(equation) != 0:
+    while True:
+
+        # if the input string has been iterated, check if there is anything in num and then add all operators from the operator stack to the_stack
+        if len(equation) == 0:
+            if len(num) != 0:
+                print('juu')
+                the_stack.append(num)
+            while len(operator_stack) != 0:
+                print('juu')
+                operator = operator_stack.pop()
+                the_stack.append(operator)
+            break
 
         char = equation.popleft()
 
@@ -85,12 +96,7 @@ def to_postfix(string):
         
     
 
-        if len(equation) == 0:
-            if len(num) != 0:
-                the_stack.append(num)
-            while len(operator_stack) != 0:
-                operator = operator_stack.pop()
-                the_stack.append(operator)
+        
 
     return the_stack
-print(to_postfix('2+4*cos(8)-3'))
+print(to_postfix('2*cos(4)'))
