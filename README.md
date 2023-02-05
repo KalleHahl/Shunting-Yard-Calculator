@@ -7,6 +7,7 @@ A calculator which takes an input, transforms the formula in to a reverse polish
 ## Weekly documentation
 - [Week1](https://github.com/KalleHahl/tiralabra/blob/main/documentation/week1.md)
 - [Week2](https://github.com/KalleHahl/tiralabra/blob/main/documentation/week2.md)
+- [Week3](https://github.com/KalleHahl/tiralabra/blob/main/documentation/week3.md)
 
 
 
