@@ -3,6 +3,7 @@ import operator
 import math
 from src.algorithms.postfix import to_postfix
 
+
 def count(postfix):
 
     operators = {
@@ -19,7 +20,10 @@ def count(postfix):
     the_stack = deque()
 
     while len(postfix) != 0:
-        char = postfix.popleft()
+        try:
+            char = postfix.popleft()
+        except:
+            return
 
         if char in operators:
 
@@ -33,13 +37,14 @@ def count(postfix):
 
             right = the_stack.pop()
             left = the_stack.pop()
+            if right == 0 and operation == operators['/']:
+                return ("Can't divide by zero")
+
             value = operation(left, right)
 
             the_stack.append(value)
             continue
 
         the_stack.append(float(char))
-            
-    return the_stack.pop()
 
-print(count(to_postfix('2*cos(4)')))
+    return the_stack.pop()
