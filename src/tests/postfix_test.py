@@ -54,12 +54,48 @@ class TestTo_postfix(unittest.TestCase):
         self.assertEqual(result, deque(
             ['5', '5', '/', '5', '*', '5', '*']
         ))
-    
+
     # test correct postfix for equation with float
     def test_RPN_float(self):
 
         result = self.test('1.2+4')
 
         self.assertEqual(result, deque(
-            ['1.2','4','+']
+            ['1.2', '4', '+']
         ))
+
+    # function gives error if there is no opening parentheses
+    def test_no_opening_parentheses(self):
+
+        result = self.test('5+5+5*4)+4+5+5')
+
+        self.assertEqual(result, 'No opening parentheses')
+
+    # function gives error if there is no closing parentheses
+
+    def test_no_closing_parentheses(self):
+
+        result = self.test('5+5+5+(+10/2')
+
+        self.assertEqual(result, "No closing parentheses")
+
+    def test_cos(self):
+
+        result = self.test('5+5*10+cos(4)')
+
+        self.assertEqual(result, deque(
+            ['5', '5', '10', '*', '4', 'cos', '+', '+']))
+
+    def test_sin(self):
+
+        result = self.test('4+5+sin(4)-10*2')
+
+        self.assertEqual(result, deque(
+            ['4', '5', '4', 'sin', '10', '2', '*', '-', '+', '+']))
+
+    def test_tan(self):
+
+        result = self.test('9+9*tan(4)-5')
+
+        self.assertEqual(result, deque(
+            ['9', '9', '4', 'tan', '*', '5', '-', '+']))
