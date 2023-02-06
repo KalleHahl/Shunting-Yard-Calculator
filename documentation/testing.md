@@ -1,4 +1,7 @@
 # Testing
+At the moment there are two test files: one that tests the to_postfix-function found in postfix.py and one that tests the count-function found in count.py.
+Both test files test with all the available operators and have tests with long calculations to ensure the algorithms work properly. The count tests should always give the proper answer to the calculation and the to_postfix tests test that the output is in correct postfix notation form. All of these tests are implemented using pythons unittest module.
+
 Coverage stats can be found here [![codecov](https://codecov.io/gh/KalleHahl/tiralabra/branch/main/graph/badge.svg?token=D9XSGLPQI0)](https://codecov.io/gh/KalleHahl/tiralabra)
 # Coverage
 You can run coverage/pytest by typing ```poetry run invoke coverage``` in the command line
