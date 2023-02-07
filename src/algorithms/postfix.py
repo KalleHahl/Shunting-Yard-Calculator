@@ -10,6 +10,16 @@ def to_postfix(string):
 
     num = ''
 
+    previous = ''
+    size = len(string)
+
+    if calculation[-1] in '+-*^/sincostan':
+        return 'Incorrect input'
+
+    print('')
+    print(f"{''.join(calculation):{size}} --> ")
+
+
     while True:
 
         # if the input string has been iterated, check if there is anything in num and then add all operators from the operator stack to the_stack
@@ -29,6 +39,10 @@ def to_postfix(string):
             num += char
 
         elif char in operators:
+
+            if char in '/+-*^' and previous in '/+-*^' and char not in '()':
+                return 'Incorrect input'
+
             if len(num) != 0:
                 if num in other_operators:
                     operator_stack.append(num)
@@ -83,12 +97,20 @@ def to_postfix(string):
                     the_stack.append(operator)
 
             elif char == '^':
+                if len(operator_stack) == 0:
+                    operator_stack.append(char)
+                    continue
+                
                 if operator_stack[-1] == char:
                     operator = operator_stack.pop()
                     the_stack.append(operator)
                 operator_stack.append(char)
 
+        previous = char
+
+        print(f"{''.join(calculation):{size}} -->  {' '.join(the_stack):10}")
+    print(f"{''.join(calculation):{size}} -->  {' '.join(the_stack):10}")
+    
     return the_stack
 
-
-print(to_postfix('9+9*tan(4)-5'))
+#print(to_postfix('2^2'))

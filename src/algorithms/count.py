@@ -17,13 +17,15 @@ def count(postfix):
         'tan': math.tan
     }
 
+    
+
     the_stack = deque()
 
     while len(postfix) != 0:
         try:
             char = postfix.popleft()
         except:
-            return
+            return postfix
 
         if char in operators:
 
