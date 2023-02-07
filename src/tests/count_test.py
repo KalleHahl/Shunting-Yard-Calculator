@@ -104,7 +104,7 @@ class Test_Count(unittest.TestCase):
     def test_long_calculation(self):
 
         result = self.test(to_postfix(
-            'sin(4) + ((4 * (7 - 3)) / (2 ^ 3)) - (10 * (5 / (2 + 3)))^2'))
+            'sin(4)+((4*(7-3))/(2^3))-(10*(5/(2+3)))^2'))
 
         self.assertEqual(result, -98.75680249530792)
 
@@ -120,11 +120,17 @@ class Test_Count(unittest.TestCase):
 
         result = self.test(to_postfix('5+5+5+(10*40+5'))
 
-        self.assertEqual(result, None)
+        self.assertEqual(result, 'No closing parentheses')
 
     def test_another_long_calculation(self):
 
         result = self.test(to_postfix(
-            '( ( 2 * ( ( 2^3 + 4 * cos(45) ) / ( sin(30) + 1 ) ) ) - ( 3 * ( ( cos(60) ^ 2 ) - ( sin(45) / 2 ) ) ) ) + ( 1 / ( ( sin(60) + cos(30) ) * ( cos(45) - sin(60) ) ) )'))
+            '((2*((2^3+4*cos(45))/(sin(30)+1)))-(3*((cos(60)^2)-(sin(45)/2))))+(1/((sin(60)+cos(30))*(cos(45)-sin(60))))'))
 
         self.assertEqual(result, 1678.550503566695)
+    
+    def test_first_operator_pow(self):
+
+        result = self.test(to_postfix('2^2+4*(2*2)'))
+
+        self.assertEqual(result, 20)

@@ -99,3 +99,15 @@ class TestTo_postfix(unittest.TestCase):
 
         self.assertEqual(result, deque(
             ['9', '9', '4', 'tan', '*', '5', '-', '+']))
+
+    def test_incorrect_input(self):
+
+        result = self.test('5+5+5+')
+
+        self.assertEqual(result, 'Incorrect input')
+    
+    def test_another_incorrect_input(self):
+
+        result = self.test('5++5')
+
+        self.assertEqual(result, 'Incorrect input')
