@@ -36,7 +36,7 @@ class TestTo_postfix(unittest.TestCase):
         result = self.test('2+4*10+2^2^2+4/2')
 
         self.assertEqual(result, deque(
-            ['2', '4', '10', '*', '2', '2', '^', '2', '^', '4', '2', '/', '+', '+', '+']))
+            ['2', '4', '10', '*', '2', '2', '2', '^', '^', '4', '2', '/', '+', '+', '+']))
 
     # test for correct order when equation has parentheses
     def test_RPN_parentheses(self):
@@ -52,7 +52,7 @@ class TestTo_postfix(unittest.TestCase):
         result = self.test('5/5*5*5')
 
         self.assertEqual(result, deque(
-            ['5', '5', '/', '5', '*', '5', '*']
+            ['5', '5', '5', '5', '*', '*', '/']
         ))
 
     # test correct postfix for equation with float
@@ -105,7 +105,7 @@ class TestTo_postfix(unittest.TestCase):
         result = self.test('5+5+5+')
 
         self.assertEqual(result, 'Incorrect input')
-    
+
     def test_another_incorrect_input(self):
 
         result = self.test('5++5')

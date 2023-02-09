@@ -128,9 +128,31 @@ class Test_Count(unittest.TestCase):
             '((2*((2^3+4*cos(45))/(sin(30)+1)))-(3*((cos(60)^2)-(sin(45)/2))))+(1/((sin(60)+cos(30))*(cos(45)-sin(60))))'))
 
         self.assertEqual(result, 1678.550503566695)
-    
+
+    # tests correct order when first operator is power of
     def test_first_operator_pow(self):
 
         result = self.test(to_postfix('2^2+4*(2*2)'))
 
         self.assertEqual(result, 20)
+
+    # tests for correct value with power of and multiplication
+    def test_correct_order_pow_and_mul(self):
+
+        result = self.test(to_postfix('4+5+4+10/5+2^2*4'))
+
+        self.assertEqual(result, 31)
+
+    # tests for correct value with substracting only
+    def test_only_subtracting_only(self):
+
+        result = self.test(to_postfix('5-5-5-5'))
+
+        self.assertEqual(result, -10)
+
+    # this particular calculation gave faulty answer before
+    def test_calculation_with_many_operators(self):
+
+        result = self.test(to_postfix('5+5+(5*5+5*5)-3-4-5*5*6'))
+
+        self.assertEqual(result, -97)
