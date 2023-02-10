@@ -1,7 +1,6 @@
 from collections import deque
 import operator
 import math
-from src.algorithms.postfix import to_postfix
 
 
 def count(postfix):
@@ -15,7 +14,8 @@ def count(postfix):
         '^': operator.pow,
         'sin': math.sin,
         'cos': math.cos,
-        'tan': math.tan
+        'tan': math.tan,
+        'sqrt': math.sqrt
     }
 
     # initialize the main stack
@@ -23,40 +23,43 @@ def count(postfix):
 
     while len(postfix) != 0:
 
-        # try popping, if not possible then the value returned by to_postfix is an error message --> return error message
+        # try popping,
+        # if not possible then the value returned by to_postfix
+        # is an error message --> return error message
         try:
             char = postfix.popleft()
-        except:
+        except AttributeError:
             return postfix
 
         # check if popped character is an operator
         if char in operators:
-            
+
             # fetch the correct operation from operations
             operation = operators.get(char)
 
-            # since these operations only take one number, pop the number from main stack--> count the value --> append to main stack --> continue 
-            if char in 'sincostan':
+            # since these operations only take one number,
+            # pop the number from main stack--> count the value
+            # --> append to main stack --> continue
+            if char in 'sincostansqrt':
                 number = the_stack.pop()
                 value = operation(number)
                 the_stack.append(value)
                 continue
-            
-            # pop operand from main stack for left and right side of calculation 
+
+            # pop operand from main stack for left and right side of calculation
             right = the_stack.pop()
             left = the_stack.pop()
             # check division by zero
             if right == 0 and operation == operators['/']:
-                return ("Can't divide by zero")
+                return "Can't divide by zero"
 
             # count value --> append to the main stack
             value = operation(left, right)
 
             the_stack.append(value)
             continue
-        
+
         # if not an operator, append float to main stack
         the_stack.append(float(char))
 
     return the_stack.pop()
-    
