@@ -111,3 +111,26 @@ class TestTo_postfix(unittest.TestCase):
         result = self.test('5++5')
 
         self.assertEqual(result, 'Incorrect input')
+
+    # test correct order for calculation with negative number in beginning
+    def test_negative_number_in_beginning(self):
+
+        result = self.test('-5-5')
+
+        self.assertEqual(result, deque(['0', '5', '-', '5', '-']))
+
+    # test for correct order for chained pows, since power of is righ associated, meaning it is counted from the right, the pow symbols need to all be at the end of the chain
+    def test_correct_order_for_many_pow(self):
+
+        result = self.test('2^2^2^2')
+
+        self.assertEqual(result, deque(['2', '2', '2', '2', '^', '^', '^']))
+
+    
+    # test correct order for squareroot with multiple variables
+    def test_correct_order_for_sqrt_multiple(self):
+
+        result = self.test('5+5*sqrt(4)^2')
+
+        self.assertEqual(result, deque(['5','5','4','sqrt','2','^','*','+']))
+

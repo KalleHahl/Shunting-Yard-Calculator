@@ -156,3 +156,24 @@ class Test_Count(unittest.TestCase):
         result = self.test(to_postfix('5+5+(5*5+5*5)-3-4-5*5*6'))
 
         self.assertEqual(result, -97)
+
+    # test that function correctly counts a negative number
+    def test_negative_number(self):
+
+        result = self.test(to_postfix('-5-5'))
+
+        self.assertEqual(result, -10)
+
+    # test sqrt
+    def test_sqrt(self):
+
+        result = self.test(to_postfix('sqrt(4)'))
+
+        self.assertEqual(result, 2)
+
+    # test sqrt with multiple operators
+    def test_sqrt_multiple_opps(self):
+
+        result = self.test(to_postfix('4^2+5*sqrt(9)/(4+5)^2'))
+
+        self.assertEqual(result, 16.185185185185187)
