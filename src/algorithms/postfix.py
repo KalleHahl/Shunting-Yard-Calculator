@@ -105,9 +105,9 @@ def to_postfix(string):
                     the_stack.append(operator)
                     continue
 
-                #if the if-statement is not true, loop the operatorstack,
-                #pop and append to the_stack, until opening parentheses is found
-                #if there is no opening parentheses, return error
+                # if the if-statement is not true, loop the operatorstack,
+                # pop and append to the_stack, until opening parentheses is found
+                # if there is no opening parentheses, return error
                 while True:
                     try:
                         operator = operator_stack.pop()

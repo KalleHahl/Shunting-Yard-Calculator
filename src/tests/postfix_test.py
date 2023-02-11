@@ -126,11 +126,11 @@ class TestTo_postfix(unittest.TestCase):
 
         self.assertEqual(result, deque(['2', '2', '2', '2', '^', '^', '^']))
 
-    
     # test correct order for squareroot with multiple variables
+
     def test_correct_order_for_sqrt_multiple(self):
 
         result = self.test('5+5*sqrt(4)^2')
 
-        self.assertEqual(result, deque(['5','5','4','sqrt','2','^','*','+']))
-
+        self.assertEqual(result, deque(
+            ['5', '5', '4', 'sqrt', '2', '^', '*', '+']))
