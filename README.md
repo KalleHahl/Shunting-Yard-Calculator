@@ -3,6 +3,14 @@
 
 A calculator which takes an input, transforms the formula in to a reverse polish notation form and gives the answer to the formula. All of this will be done using the shunting yard algorithm.
 ## Usage
+Clone this repository.
+
+Install dependencies by typing ```poetry install```
+
+Start the program by either ```poetry shell``` &rarr; ```invoke start``` or by just by typing ```poetry run invoke start```
+
+Exit program by typing quit
+
 ![Video](https://github.com/KalleHahl/tiralabra/blob/main/documentation/data/Screencast%20from%2010-02-23%2017_38_26.gif)
 ## Documentation
 - [Project definition](https://github.com/KalleHahl/tiralabra/blob/main/documentation/definition.md)
@@ -12,6 +20,7 @@ A calculator which takes an input, transforms the formula in to a reverse polish
 - [Week1](https://github.com/KalleHahl/tiralabra/blob/main/documentation/week1.md)
 - [Week2](https://github.com/KalleHahl/tiralabra/blob/main/documentation/week2.md)
 - [Week3](https://github.com/KalleHahl/tiralabra/blob/main/documentation/week3.md)
+- [Week4](https://github.com/KalleHahl/tiralabra/blob/main/documentation/week4.md)
 
 
 
