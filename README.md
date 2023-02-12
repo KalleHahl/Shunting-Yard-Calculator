@@ -7,7 +7,7 @@ A calculator which takes an input, transforms the formula in to a reverse polish
 ## Documentation
 - [Project definition](https://github.com/KalleHahl/tiralabra/blob/main/documentation/definition.md)
 - [Testing](https://github.com/KalleHahl/tiralabra/blob/main/documentation/testing.md)
-- [Definition](https://github.com/KalleHahl/tiralabra/blob/main/documentation/implementation.md)
+- [Implementation](https://github.com/KalleHahl/tiralabra/blob/main/documentation/implementation.md)
 ## Weekly documentation
 - [Week1](https://github.com/KalleHahl/tiralabra/blob/main/documentation/week1.md)
 - [Week2](https://github.com/KalleHahl/tiralabra/blob/main/documentation/week2.md)
