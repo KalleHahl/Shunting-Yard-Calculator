@@ -7,7 +7,7 @@ Clone this repository.
 
 Install dependencies by typing ```poetry install```
 
-Start the program by either ```poetry shell``` &rarr; ```invoke start``` or by just by typing ```poetry run invoke start```
+Start the program by either ```poetry shell``` &rarr; ```invoke start``` or by just typing ```poetry run invoke start```
 
 Exit program by typing quit
 
