@@ -59,7 +59,10 @@ def count(postfix):
             the_stack.append(value)
             continue
 
-        # if not an operator, append float to main stack
-        the_stack.append(float(char))
+        # if not an operator, append operand to main stack
+        try:
+            the_stack.append(int(char))
+        except ValueError:
+            the_stack.append(float(char))
 
     return the_stack.pop()

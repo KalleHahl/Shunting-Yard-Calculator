@@ -17,12 +17,17 @@ while True:
 
     if '=' in calculation:
         vars = calculation.split("=")
-        value = count(to_postfix(vars[-1]))
+        expression = variables.fetch_variables(vars[-1])
+        value = count(to_postfix(expression))
         variables.add_variable(vars[0], str(value)) 
-        print(f"= {value}\n")
+        print(f"{vars[0]} = {value}\n")
         print('variable added!')
         continue
 
     check_variables = variables.fetch_variables(calculation)
-    value = count(to_postfix(check_variables))
-    print(f"\n= {value}\n")
+
+    try:
+        value = count(to_postfix(check_variables))
+        print(f"\n= {value}\n")
+    except IndexError:
+        print('Incorrect input, variable not saved')
