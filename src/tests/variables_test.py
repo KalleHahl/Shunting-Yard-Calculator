@@ -19,3 +19,6 @@ class Test_variables(unittest.TestCase):
         self.variables.add_variable('X', '10')
         self.assertEqual(self.variables.vars, {'X':'10','Y':'16'})
         
+    def test_fetch_with_no_variables(self):
+        result = self.variables.fetch_variables('5+10^2-sin(4)')
+        self.assertEqual(result, '5+10^2-sin(4)')

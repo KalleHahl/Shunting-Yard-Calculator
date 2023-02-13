@@ -15,6 +15,3 @@ class Variables:
                 expression = f"{new[0]}{values}{new[-1]}"
         
         return expression
-
-    def __str__(self):
-        return self.vars
