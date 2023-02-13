@@ -9,9 +9,9 @@ class Variables:
     
     def fetch_variables(self, expression):
 
-        for keys, values in self.vars.items():
-            if keys in expression:
-                new = expression.split(keys)
-                expression = f"{new[0]}{values}{new[-1]}"
+        for character in expression:
+            if character in self.vars:
+                new = expression.split(character)
+                expression = f"{new[0]}{self.vars[character]}{new[-1]}"
         
         return expression
