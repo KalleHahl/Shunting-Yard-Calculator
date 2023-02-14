@@ -19,9 +19,18 @@ while True:
         vars = calculation.split("=")
         expression = variables.fetch_variables(vars[-1])
         value = count(to_postfix(expression))
-        variables.add_variable(vars[0], str(value)) 
+        try:
+            int(value)
+        except ValueError:
+            print(value)
+            continue
+
+        if value < 0:
+            value = f"({str(value)})"
+
+        variables.add_variable(vars[0], str(value))
         print(f"{vars[0]} = {value}\n")
-        print('variable added!')
+        print('Variable added!')
         continue
 
     check_variables = variables.fetch_variables(calculation)
