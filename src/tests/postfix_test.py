@@ -104,7 +104,7 @@ class TestTo_postfix(unittest.TestCase):
 
         result = self.test('5+5+5+')
 
-        self.assertEqual(result, 'Incorrect input')
+        self.assertEqual(result, 'Incorrect input, ends in operator')
 
     def test_another_incorrect_input(self):
 
@@ -134,3 +134,12 @@ class TestTo_postfix(unittest.TestCase):
 
         self.assertEqual(result, deque(
             ['5', '5', '4', 'sqrt', '2', '^', '*', '+']))
+    
+    # test correct order for expression where negative number is in the middle
+    def test_correct_order_with_negative(self):
+
+        result = self.test('2+5*(-5)+2')
+
+        self.assertEqual(result, deque(
+            ['2','5','0','5','-','*','2','+','+']
+        ))
