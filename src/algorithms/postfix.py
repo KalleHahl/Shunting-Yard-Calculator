@@ -9,14 +9,14 @@ def to_postfix(string):
     operator_stack = deque()
     # stack to store the postfix form
     the_stack = deque()
-    # variable for numbers or sin, cos tan
+    # variable for numbers or unary functions
     num = ''
     # variable to keep track of previous operator
     previous = ''
     size = len(string)
     # if calculation ends in an operator, return incorrect input
     if calculation[-1] in '+-*^/sincostansqrt':
-        return 'Incorrect input'
+        return 'Incorrect input, ends in operator'
 
     if calculation[0] == '-':
         calculation.appendleft('0')
@@ -27,22 +27,25 @@ def to_postfix(string):
     while calculation:
         # take the leftmost character in the calculation
         char = calculation.popleft()
+
+        # variable for checking next character
         if calculation:
             next_char = calculation[0]
-        # if calculation:
-        # next_char = calculation[0]
+
         # adds to the num variable if character is a number,
         # a float point, or is included in the other_operators string
         if char.isdigit() or char == '.' or char in other_operators:
             num += char
             previous = char
             continue
+
         # uses the previous variable to see
-        # if the calculation incorrectly has 2 or more operators next_char to eachother
+        # if the calculation incorrectly has 2 or more operators next to eachother
         if char in '/+-*^' and previous in '/+-*^':
             return 'Incorrect input'
 
         previous = char
+
         # this prevents the algo from adding an empty space to the_stack,
         # if num is sin, cos or tan, it gets added to operator_stack.
         # If it's a number, it's added to the_stack
@@ -53,6 +56,7 @@ def to_postfix(string):
             else:
                 the_stack.append(num)
                 num = ''
+
         # +- have to lowest precedence,
         #  so the operator stack gets cleared
         # until there is no higher precedence operators in it
@@ -68,6 +72,7 @@ def to_postfix(string):
             if operator_stack and operator_stack[-1] == '-':
                 the_stack.append(operator_stack.pop())
             operator_stack.append(char)
+
         # */ have the second lowest/highest precedence,
         # so the operator stack gets cleared until there are no higher precedence operators
         elif char in '*/':
@@ -77,16 +82,22 @@ def to_postfix(string):
                 the_stack.append(operator)
 
             operator_stack.append(char)
+
         # highest precedence, immediately gets appended to the operatorstack
         elif char == '(':
+
+            #If next character is negative,
+            #append 0 to the_stack. Solved issue
+            #with negative numbers
             if next_char == '-':
                 the_stack.append('0')
             operator_stack.append(char)
-        # once encountered
+
         elif char == ')':
-            # loop the operatorstack,
-            # pop and append to the_stack, until opening parentheses is found
-            # if there is no opening parentheses, return error
+
+            #loop the operatorstack,
+            #pop and append to the_stack, until opening parentheses is found
+            #if there is no opening parentheses, return error
             while True:
                 try:
                     operator = operator_stack.pop()
@@ -94,10 +105,16 @@ def to_postfix(string):
                     return 'Parentheses mismatch'
 
                 if operator == '(':
+
+                    #If the parentheses are for normal calculations,
+                    #break, but if the operator ontop of the operatorstack
+                    #is a unary function, pop and append to stack
                     if operator_stack and operator_stack[-1] in other_operators:
                         the_stack.append(operator_stack.pop())
                     break
+
                 the_stack.append(operator)
+
         # highest precedence, append on top of operator stack
         elif char == '^':
             operator_stack.append(char)
@@ -118,5 +135,3 @@ def to_postfix(string):
         print(f"{''.join(calculation):{size}} -->  {' '.join(the_stack):10}")
 
     return the_stack
-
-# print(to_postfix('2^2^2^2*5*5*5'))
