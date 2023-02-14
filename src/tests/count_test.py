@@ -120,7 +120,7 @@ class Test_Count(unittest.TestCase):
 
         result = self.test(to_postfix('5+5+5+(10*40+5'))
 
-        self.assertEqual(result, 'No closing parentheses')
+        self.assertEqual(result, 'Parentheses mismatch')
 
     def test_another_long_calculation(self):
 

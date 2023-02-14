@@ -69,7 +69,7 @@ class TestTo_postfix(unittest.TestCase):
 
         result = self.test('5+5+5*4)+4+5+5')
 
-        self.assertEqual(result, 'No opening parentheses')
+        self.assertEqual(result, 'Parentheses mismatch')
 
     # function gives error if there is no closing parentheses
 
@@ -77,7 +77,7 @@ class TestTo_postfix(unittest.TestCase):
 
         result = self.test('5+5+5+(+10/2')
 
-        self.assertEqual(result, "No closing parentheses")
+        self.assertEqual(result, "Parentheses mismatch")
 
     def test_cos(self):
 
