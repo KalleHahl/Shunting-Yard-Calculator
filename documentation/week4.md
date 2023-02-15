@@ -4,7 +4,7 @@ This week I coded a simple interface for the calculator. After typing the expres
 I also fixed to major errors with the algorithm and implemented squareroot function.
 
 ### Troubles: 
-Encountered a major error with the algorithm. First I hadn't taken into consideration that the power of is a left associative operator, meaning chained powers of are counted from the left to the right.
+Encountered a major error with the algorithm. First I hadn't taken into consideration that the power of is a right associative operator, meaning chained powers of are counted from the right to the left.
 After fixing that I encountered another problem with chained subtractions. Managed to fix this issue aswell.
 ### What I've learned?
 Learned the importance of testing. Even though I had plenty of tests written, which had expressions with multiple operators and parentheses, I still had a major error in the algorithm that the tests didn't detect.
