@@ -86,18 +86,18 @@ def to_postfix(string):
         # highest precedence, immediately gets appended to the operatorstack
         elif char == '(':
 
-            #If next character is negative,
-            #append 0 to the_stack. Solved issue
-            #with negative numbers
+            # If next character is negative,
+            # append 0 to the_stack. Solved issue
+            # with negative numbers
             if next_char == '-':
                 the_stack.append('0')
             operator_stack.append(char)
 
         elif char == ')':
 
-            #loop the operatorstack,
-            #pop and append to the_stack, until opening parentheses is found
-            #if there is no opening parentheses, return error
+            # loop the operatorstack,
+            # pop and append to the_stack, until opening parentheses is found
+            # if there is no opening parentheses, return error
             while True:
                 try:
                     operator = operator_stack.pop()
@@ -106,9 +106,9 @@ def to_postfix(string):
 
                 if operator == '(':
 
-                    #If the parentheses are for normal calculations,
-                    #break, but if the operator ontop of the operatorstack
-                    #is a unary function, pop and append to stack
+                    # If the parentheses are for normal calculations,
+                    # break, but if the operator ontop of the operatorstack
+                    # is a unary function, pop and append to stack
                     if operator_stack and operator_stack[-1] in other_operators:
                         the_stack.append(operator_stack.pop())
                     break

@@ -1,6 +1,8 @@
 """
     Class for variable storing and fetcing
 """
+
+
 class Variables:
 
     def __init__(self):
@@ -11,8 +13,8 @@ class Variables:
 
     def fetch_variables(self, expression):
 
-        #Loop the expression, if a variable is found
-        #replace it in the expression
+        # Loop the expression, if a variable is found
+        # replace it in the expression
         for character in expression:
             if character in self.vars:
                 new = expression.split(character)
