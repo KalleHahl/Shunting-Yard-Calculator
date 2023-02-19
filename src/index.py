@@ -13,6 +13,7 @@ while True:
         continue
 
     if calculation == 'quit':
+        print('\nBye!')
         break
 
     if '=' in calculation:
@@ -39,4 +40,4 @@ while True:
         value = count(to_postfix(check_variables))
         print(f"\n= {value}\n")
     except IndexError:
-        print('Incorrect input, variable not saved')
+        print('Incorrect input')
