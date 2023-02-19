@@ -177,3 +177,47 @@ class Test_Count(unittest.TestCase):
         result = self.test(to_postfix('4^2+5*sqrt(9)/(4+5)^2'))
 
         self.assertEqual(result, 16.185185185185187)
+
+    # test square root of negative
+    def test_sqrt_negative(self):
+
+        result = self.test(to_postfix('sqrt(-25)'))
+
+        self.assertEqual(result, "Can't solve squareroot of negative number")
+
+    # test count with incorrect operator
+    def test_incorrect_operator(self):
+
+        result = self.test(to_postfix('50+sinc(5)-10'))
+
+        self.assertEqual(result, "Incorrect input")
+
+    def test_min(self):
+
+        result = self.test(to_postfix('min(16,20)'))
+
+        self.assertEqual(result, 16)
+
+    def test_max(self):
+
+        result = self.test(to_postfix('max(2000,23)'))
+
+        self.assertEqual(result, 2000)
+
+    def test_min_max(self):
+        
+        result = self.test(to_postfix('min(max(30,40), min(500, 200))'))
+
+        self.assertEqual(result, 40)
+
+    def test_min_on_expressions(self):
+
+        result = self.test(to_postfix('5+min(4^2+5*sqrt(9)/(4+5)^2,2^2*4-2)*2'))
+
+        self.assertEqual(result, 33)
+    
+    def test_expression_with_many_negatives(self):
+
+        result = self.test(to_postfix('-5+12*(-2)-(-2)^2'))
+
+        self.assertEqual(result, -33)

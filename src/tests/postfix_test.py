@@ -104,7 +104,7 @@ class TestTo_postfix(unittest.TestCase):
 
         result = self.test('5+5+5+')
 
-        self.assertEqual(result, 'Incorrect input, ends in operator')
+        self.assertEqual(result, 'Incorrect input')
 
     def test_another_incorrect_input(self):
 
@@ -117,7 +117,7 @@ class TestTo_postfix(unittest.TestCase):
 
         result = self.test('-5-5')
 
-        self.assertEqual(result, deque(['0', '5', '-', '5', '-']))
+        self.assertEqual(result, deque(['-5', '5', '-']))
 
     # test for correct order for chained pows, since power of is righ associated, meaning it is counted from the right, the pow symbols need to all be at the end of the chain
     def test_correct_order_for_many_pow(self):
@@ -141,5 +141,30 @@ class TestTo_postfix(unittest.TestCase):
         result = self.test('2+5*(-5)+2')
 
         self.assertEqual(result, deque(
-            ['2', '5', '0', '5', '-', '*', '2', '+', '+']
+            ['2', '5', '-5', '*', '2', '+', '+']
         ))
+
+    # test empty unary function
+    def test_empty_unary(self):
+
+        result = self.test('5+cos()+4')
+
+        self.assertEqual(result, 'Empty unary function')
+
+    def test_min(self):
+
+        result = self.test('min(16,20)')
+
+        self.assertEqual(result, deque(['16','20', 'min']))
+    
+    def test_max(self):
+
+        result = self.test('max(1,12)')
+
+        self.assertEqual(result, deque(['1','12', 'max']))
+
+    def test_incorrect_comma(self):
+        
+        result = self.test('5+5*2,2+3')
+
+        self.assertEqual(result, 'Incorrect input')
