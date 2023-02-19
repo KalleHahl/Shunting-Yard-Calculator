@@ -15,7 +15,9 @@ def count(postfix):
         'sin': math.sin,
         'cos': math.cos,
         'tan': math.tan,
-        'sqrt': math.sqrt
+        'sqrt': math.sqrt,
+        'min': min,
+        'max': max
     }
 
     # initialize the main stack
@@ -40,9 +42,12 @@ def count(postfix):
             # since these operations only take one number,
             # pop the number from main stack--> count the value
             # --> append to main stack --> continue
-            if char in 'sincostansqrt':
+            if char in ("sin", "cos", "tan", "sqrt"):
                 number = the_stack.pop()
-                value = operation(number)
+                try:
+                    value = operation(number)
+                except ValueError:
+                    return "Can't solve squareroot of negative number"
                 the_stack.append(value)
                 continue
 
@@ -61,8 +66,8 @@ def count(postfix):
 
         # if not an operator, append operand to main stack
         try:
-            the_stack.append(int(char))
-        except ValueError:
             the_stack.append(float(char))
+        except ValueError:
+            return 'Incorrect input'
 
     return the_stack.pop()

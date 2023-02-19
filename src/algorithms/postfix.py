@@ -2,7 +2,7 @@ from collections import deque
 
 
 def to_postfix(string):
-    other_operators = 'sincostansqrt'
+    other_operators = 'sincostansqrtminmax'
     # deque the string, to have popleft function
     calculation = deque(string)
     # stack to store operators
@@ -15,11 +15,11 @@ def to_postfix(string):
     previous = ''
     size = len(string)
     # if calculation ends in an operator, return incorrect input
-    if calculation[-1] in '+-*^/sincostansqrt':
-        return 'Incorrect input, ends in operator'
+    if not calculation[-1].isdigit() and calculation[-1] not in '()':
+        return 'Incorrect input'
 
     if calculation[0] == '-':
-        calculation.appendleft('0')
+        num = calculation.popleft()
 
     print('')
     print(f"{''.join(calculation):{size}} --> ")
@@ -56,7 +56,7 @@ def to_postfix(string):
             else:
                 the_stack.append(num)
                 num = ''
-
+            
         # +- have to lowest precedence,
         #  so the operator stack gets cleared
         # until there is no higher precedence operators in it
@@ -90,7 +90,9 @@ def to_postfix(string):
             # append 0 to the_stack. Solved issue
             # with negative numbers
             if next_char == '-':
-                the_stack.append('0')
+                num = calculation.popleft()
+            elif next_char == ')':
+                return 'Empty unary function'
             operator_stack.append(char)
 
         elif char == ')':
@@ -114,7 +116,13 @@ def to_postfix(string):
                     break
 
                 the_stack.append(operator)
-
+        
+        elif char == ',':
+            try:
+                while operator_stack[-1] != '(':
+                    the_stack.append(operator_stack.pop())
+            except IndexError:
+                return 'Incorrect input'
         # highest precedence, append on top of operator stack
         elif char == '^':
             operator_stack.append(char)
