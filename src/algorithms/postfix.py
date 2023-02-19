@@ -56,7 +56,7 @@ def to_postfix(string):
             else:
                 the_stack.append(num)
                 num = ''
-            
+
         # +- have to lowest precedence,
         #  so the operator stack gets cleared
         # until there is no higher precedence operators in it
@@ -116,7 +116,7 @@ def to_postfix(string):
                     break
 
                 the_stack.append(operator)
-        
+
         elif char == ',':
             try:
                 while operator_stack[-1] != '(':
