@@ -1,145 +1,181 @@
 from collections import deque
+from src.errors.error import MismatchedParentheses, EmptyFunction, CommaError, IncorrectInput
 
 
-def to_postfix(string):
-    other_operators = 'sincostansqrtminmax'
-    # deque the string, to have popleft function
-    calculation = deque(string)
-    # stack to store operators
-    operator_stack = deque()
-    # stack to store the postfix form
-    the_stack = deque()
-    # variable for numbers or unary functions
-    num = ''
-    # variable to keep track of previous operator
-    previous = ''
-    size = len(string)
-    # if calculation ends in an operator, return incorrect input
-    if not calculation[-1].isdigit() and calculation[-1] not in '()':
-        return 'Incorrect input'
+class ShuntingYard:
 
-    if calculation[0] == '-':
-        num = calculation.popleft()
+    def __init__(self, string):
+        self.other_operators = 'sincostansqrtminmax'
+        self.calculation = deque(string)
+        self.operator_stack = deque()
+        self.the_stack = deque()
+        self.char = ''
+        self.num = ''
+        self.previous = ''
+        self.next = ''
+        self.size = len(string)
 
-    print('')
-    print(f"{''.join(calculation):{size}} --> ")
 
-    while calculation:
-        # take the leftmost character in the calculation
-        char = calculation.popleft()
+    def to_postfix(self):
+        """
+        Main function for iterating the expression and transforming it into
+        its postfix notation
+        """
+        self.initial_check()
+        print('')
+        print(f"{''.join(self.calculation):{self.size}} --> ")
 
-        # variable for checking next character
-        if calculation:
-            next_char = calculation[0]
+        while self.calculation:
+            self.char = self.calculation.popleft()
 
-        # adds to the num variable if character is a number,
-        # a float point, or is included in the other_operators string
-        if char.isdigit() or char == '.' or char in other_operators:
-            num += char
-            previous = char
-            continue
+            if self.calculation:
+                self.next = self.calculation[0]
 
-        # uses the previous variable to see
-        # if the calculation incorrectly has 2 or more operators next to eachother
-        if char in '/+-*^' and previous in '/+-*^':
-            return 'Incorrect input'
+            if self.char.isdigit() or self.char == '.' or self.char in self.other_operators:
+                self.num += self.char
+                self.previous = self.char
+                continue
 
-        previous = char
+            if self.char in '/+-*^' and self.previous in '/+-*^':
+                raise IncorrectInput
 
-        # this prevents the algo from adding an empty space to the_stack,
-        # if num is sin, cos or tan, it gets added to operator_stack.
-        # If it's a number, it's added to the_stack
-        if len(num) != 0:
-            if num in other_operators:
-                operator_stack.append(num)
-                num = ''
-            else:
-                the_stack.append(num)
-                num = ''
+            self.previous = self.char
 
-        # +- have to lowest precedence,
-        #  so the operator stack gets cleared
-        # until there is no higher precedence operators in it
-        if char in '+-':
-            while operator_stack and operator_stack[-1] in '*/^':
-                operator = operator_stack.pop()
-                the_stack.append(operator)
+            self.clear_num()
 
-            # chained substractions have to be added differentry
-            # since 555-- doesn't give -5 when counted with the second algo,
-            # instead it gives 5
-            # This solves the problem by adding chained substractions like 55-5- into the_stack
-            if operator_stack and operator_stack[-1] == '-':
-                the_stack.append(operator_stack.pop())
-            operator_stack.append(char)
+            if self.char in '+-':
+                self.precedence_1()
+            elif self.char in '*/':
+                self.precedence_2()
+            elif self.char == '(':
+                self.opening_parentheses()
+            elif self.char == ')':
+                self.closing_parentheses()
+            elif self.char == ',':
+                self.comma()
+            elif self.char == '^':
+                self.operator_stack.append(self.char)
 
-        # */ have the second lowest/highest precedence,
-        # so the operator stack gets cleared until there are no higher precedence operators
-        elif char in '*/':
+            print(
+                f"{''.join(self.calculation):{self.size}} -->  {' '.join(self.the_stack):10}")
 
-            while operator_stack and operator_stack[-1] == '^':
-                operator = operator_stack.pop()
-                the_stack.append(operator)
+        self.end_loop()
 
-            operator_stack.append(char)
+        return self.the_stack
 
-        # highest precedence, immediately gets appended to the operatorstack
-        elif char == '(':
 
-            # If next character is negative,
-            # append 0 to the_stack. Solved issue
-            # with negative numbers
-            if next_char == '-':
-                num = calculation.popleft()
-            elif next_char == ')':
-                return 'Empty unary function'
-            operator_stack.append(char)
+    def initial_check(self):
+        """
+        Checks if the input starts with a negative or ends in an operator
+        """
+        if not self.calculation[-1].isdigit() and self.calculation[-1] not in '()':
+            raise IncorrectInput
 
-        elif char == ')':
+        if self.calculation[0] == '-':
+            self.num = self.calculation.popleft()
 
-            # loop the operatorstack,
-            # pop and append to the_stack, until opening parentheses is found
-            # if there is no opening parentheses, return error
-            while True:
-                try:
-                    operator = operator_stack.pop()
-                except IndexError:
-                    return 'Parentheses mismatch'
 
-                if operator == '(':
+    def precedence_1(self):
+        """
+        Precedence 1 includes + and -, loops the operator stack, pops and
+        appends operators to the_stack until no higher precedence operators
+        are found.
+        """
+        while self.operator_stack and self.operator_stack[-1] in '*/^':
+            operator = self.operator_stack.pop()
+            self.the_stack.append(operator)
+        if self.operator_stack and self.operator_stack[-1] == '-':
+            self.the_stack.append(self.operator_stack.pop())
+        self.operator_stack.append(self.char)
 
-                    # If the parentheses are for normal calculations,
-                    # break, but if the operator ontop of the operatorstack
-                    # is a unary function, pop and append to stack
-                    if operator_stack and operator_stack[-1] in other_operators:
-                        the_stack.append(operator_stack.pop())
-                    break
 
-                the_stack.append(operator)
+    def precedence_2(self):
+        """
+        Includes */, loops operator stack and appends operators to the_stack
+        until no more higher precedence operators are found.
+        """
+        while self.operator_stack and self.operator_stack[-1] == '^':
+            operator = self.operator_stack.pop()
+            self.the_stack.append(operator)
 
-        elif char == ',':
+        self.operator_stack.append(self.char)
+
+
+    def opening_parentheses(self):
+        """
+        Immediately check is next char is a negative mark and adds it to the num
+        variable. Then checks if the next char is a closing parentheses and raises
+        an error if it is. Otherwise just appends the opening parentheses to
+        the operator stack
+        """
+        if self.next == '-':
+            self.num = self.calculation.popleft()
+        elif self.next == ')':
+            raise EmptyFunction
+        self.operator_stack.append(self.char)
+
+
+    def closing_parentheses(self):
+        """
+        Loops the operatorstack, pops and adds the operator from operator_stack to
+        the_stack until closing parentheses is found. If not found then an error is
+        raised. If ( is found, if the operator on top of the operator_stack is
+        a function, it is also popped onto the_stack
+        """
+        while True:
             try:
-                while operator_stack[-1] != '(':
-                    the_stack.append(operator_stack.pop())
-            except IndexError:
-                return 'Incorrect input'
-        # highest precedence, append on top of operator stack
-        elif char == '^':
-            operator_stack.append(char)
+                operator = self.operator_stack.pop()
+            except IndexError as exc:
+                raise MismatchedParentheses from exc
 
-        print(f"{''.join(calculation):{size}} -->  {' '.join(the_stack):10}")
+            if operator == '(':
 
-    # checks if num variable has something in it, append to the_stack if it does
-    if len(num) != 0:
-        the_stack.append(num)
+                if self.operator_stack and self.operator_stack[-1] in self.other_operators:
+                    self.the_stack.append(self.operator_stack.pop())
+                break
 
-    # loop the remaining operators from the operatorstack and append them to the_stack,
-    # return error if an opening parentheses is found in this stage
-    while len(operator_stack) != 0:
-        operator = operator_stack.pop()
-        if operator == '(':
-            return 'Parentheses mismatch'
-        the_stack.append(operator)
-        print(f"{''.join(calculation):{size}} -->  {' '.join(the_stack):10}")
+            self.the_stack.append(operator)
 
-    return the_stack
+
+    def comma(self):
+        """
+        Comma acts much like the closing parentheses, loop the operator stack and
+        append to the_stack until opening parentheses is found
+        """
+        try:
+            while self.operator_stack[-1] != '(':
+                self.the_stack.append(self.operator_stack.pop())
+        except IndexError as exc:
+            raise CommaError from exc
+
+
+    def end_loop(self):
+        """
+        After the expression has been iterated, append the num variable onto the_stack
+        and iterate the operator stack and append rest of the operators
+        """
+        if len(self.num) != 0:
+            self.the_stack.append(self.num)
+
+        while len(self.operator_stack) != 0:
+            operator = self.operator_stack.pop()
+            if operator == '(':
+                raise MismatchedParentheses
+            self.the_stack.append(operator)
+            print(
+                f"{''.join(self.calculation):{self.size}} -->  {' '.join(self.the_stack):10}")
+
+
+    def clear_num(self):
+        """
+        This function appends and clears the num variable after
+        it is found that the current char in the main loop
+        is not a digit, floating point or a string
+        """
+        if len(self.num) != 0:
+            if self.num in self.other_operators:
+                self.operator_stack.append(self.num)
+                self.num = ''
+            else:
+                self.the_stack.append(self.num)
+                self.num = ''

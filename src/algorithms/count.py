@@ -1,73 +1,75 @@
 from collections import deque
 import operator
 import math
+from src.errors.error import SquareRootOfNegative, IncorrectInput, DivisionByZero
+class Count:
 
+    def __init__(self, expression):
+        self.char = None
+        self.expression = expression
+        # initialize the main stack
+        self.the_stack = deque()
+        # all available operatorts, sin,cos,tan count radians
+        self.operators = {
+            '+': operator.add,
+            '-': operator.sub,
+            '*': operator.mul,
+            '/': operator.truediv,
+            '^': operator.pow,
+            'sin': math.sin,
+            'cos': math.cos,
+            'tan': math.tan,
+            'sqrt': math.sqrt,
+            'min': min,
+            'max': max
+        }
 
-def count(postfix):
+    def count(self):
 
-    # all available operatorts, sin,cos,tan count radians
-    operators = {
-        '+': operator.add,
-        '-': operator.sub,
-        '*': operator.mul,
-        '/': operator.truediv,
-        '^': operator.pow,
-        'sin': math.sin,
-        'cos': math.cos,
-        'tan': math.tan,
-        'sqrt': math.sqrt,
-        'min': min,
-        'max': max
-    }
+        while len(self.expression) != 0:
 
-    # initialize the main stack
-    the_stack = deque()
+            self.char = self.expression.popleft()
 
-    while len(postfix) != 0:
+            # check if popped character is an operator
+            if self.char in self.operators:
 
-        # try popping,
-        # if not possible then the value returned by to_postfix
-        # is an error message --> return error message
-        try:
-            char = postfix.popleft()
-        except AttributeError:
-            return postfix
-
-        # check if popped character is an operator
-        if char in operators:
-
-            # fetch the correct operation from operations
-            operation = operators.get(char)
-
-            # since these operations only take one number,
-            # pop the number from main stack--> count the value
-            # --> append to main stack --> continue
-            if char in ("sin", "cos", "tan", "sqrt"):
-                number = the_stack.pop()
-                try:
-                    value = operation(number)
-                except ValueError:
-                    return "Can't solve squareroot of negative number"
-                the_stack.append(value)
+                # since these operations only take one number,
+                # pop the number from main stack--> count the value
+                # --> append to main stack --> continue
+                if self.char in ("sin", "cos", "tan", "sqrt"):
+                    self.functions()
+                else:
+                    self.operations()
                 continue
 
-            # pop operand from main stack for left and right side of calculation
-            right = the_stack.pop()
-            left = the_stack.pop()
-            # check division by zero
-            if right == 0 and operation == operators['/']:
-                return "Can't divide by zero"
+            # if not an operator, append operand to main stack
+            try:
+                self.the_stack.append(float(self.char))
+            except Exception as exc:
+                raise IncorrectInput from exc
 
-            # count value --> append to the main stack
-            value = operation(left, right)
+        return self.the_stack.pop()
 
-            the_stack.append(value)
-            continue
-
-        # if not an operator, append operand to main stack
+    def functions(self):
+        operation = self.operators.get(self.char)
+        number = self.the_stack.pop()
         try:
-            the_stack.append(float(char))
-        except ValueError:
-            return 'Incorrect input'
+            value = operation(number)
+        except Exception as exc:
+            raise SquareRootOfNegative from exc
 
-    return the_stack.pop()
+        self.the_stack.append(value)
+
+    def operations(self):
+        # pop operand from main stack for left and right side of calculation
+        operation = self.operators.get(self.char)
+        right = self.the_stack.pop()
+        left = self.the_stack.pop()
+        # check division by zero
+        if right == 0 and operation == self.operators['/']:
+            raise DivisionByZero
+
+        # count value --> append to the main stack
+        value = operation(left, right)
+
+        self.the_stack.append(value)
