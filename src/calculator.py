@@ -8,7 +8,7 @@ from src.errors.error import (IncorrectInput, CommaError, MismatchedParentheses,
 class Calculator:
 
     def __init__(self):
-        print("Type 'help' for instructions, 'quit' to exit program")
+        print("Type 'help' for instructions, 'variables' for variables, 'quit' to exit program")
         self.variables = Variables()
         self.input = None
         self.calculation = None
