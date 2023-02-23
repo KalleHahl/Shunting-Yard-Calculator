@@ -1,4 +1,4 @@
-from src.variables import Variables
+from src.algorithms.variables import Variables
 import unittest
 
 
