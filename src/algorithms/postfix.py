@@ -9,52 +9,55 @@ class ShuntingYard:
         self.calculation = deque(string)
         self.operator_stack = deque()
         self.the_stack = deque()
-        self.char = ''
+        self.current = ''
         self.num = ''
         self.previous = ''
         self.next = ''
         self.size = len(string)
-
+        self.function_dictionary = {
+            '+': self.precedence_1,
+            '-': self.precedence_1,
+            '*': self.precedence_2,
+            '/': self.precedence_2,
+            '(': self.opening_parentheses,
+            ')': self.closing_parentheses,
+            ',': self.comma,
+            '^': self.pow,
+        }
 
     def to_postfix(self):
         """
         Main function for iterating the expression and transforming it into
-        its postfix notation
+        its postfix notation, returns a deque.
         """
         self.initial_check()
         print('')
         print(f"{''.join(self.calculation):{self.size}} --> ")
 
         while self.calculation:
-            self.char = self.calculation.popleft()
+            self.current = self.calculation.popleft()
 
             if self.calculation:
                 self.next = self.calculation[0]
 
-            if self.char.isdigit() or self.char == '.' or self.char in self.other_operators:
-                self.num += self.char
-                self.previous = self.char
+            if self.current.isdigit() or self.current == '.' \
+                or self.current in self.other_operators:
+
+                self.num += self.current
+                self.previous = self.current
                 continue
 
-            if self.char in '/+-*^' and self.previous in '/+-*^':
+            if self.current in '/+-*^' and self.previous in '/+-*^':
                 raise IncorrectInput
 
-            self.previous = self.char
+            self.previous = self.current
 
             self.clear_num()
 
-            if self.char in '+-':
-                self.precedence_1()
-            elif self.char in '*/':
-                self.precedence_2()
-            elif self.char == '(':
-                self.opening_parentheses()
-            elif self.char == ')':
-                self.closing_parentheses()
-            elif self.char == ',':
-                self.comma()
-            elif self.char == '^':
-                self.operator_stack.append(self.char)
+            try:
+                self.function_dictionary[self.current]()
+            except KeyError:
+                continue
 
             print(
                 f"{''.join(self.calculation):{self.size}} -->  {' '.join(self.the_stack):10}")
@@ -62,7 +65,6 @@ class ShuntingYard:
         self.end_loop()
 
         return self.the_stack
-
 
     def initial_check(self):
         """
@@ -73,7 +75,6 @@ class ShuntingYard:
 
         if self.calculation[0] == '-':
             self.num = self.calculation.popleft()
-
 
     def precedence_1(self):
         """
@@ -86,8 +87,7 @@ class ShuntingYard:
             self.the_stack.append(operator)
         if self.operator_stack and self.operator_stack[-1] == '-':
             self.the_stack.append(self.operator_stack.pop())
-        self.operator_stack.append(self.char)
-
+        self.operator_stack.append(self.current)
 
     def precedence_2(self):
         """
@@ -98,8 +98,7 @@ class ShuntingYard:
             operator = self.operator_stack.pop()
             self.the_stack.append(operator)
 
-        self.operator_stack.append(self.char)
-
+        self.operator_stack.append(self.current)
 
     def opening_parentheses(self):
         """
@@ -112,8 +111,7 @@ class ShuntingYard:
             self.num = self.calculation.popleft()
         elif self.next == ')':
             raise EmptyFunction
-        self.operator_stack.append(self.char)
-
+        self.operator_stack.append(self.current)
 
     def closing_parentheses(self):
         """
@@ -136,7 +134,6 @@ class ShuntingYard:
 
             self.the_stack.append(operator)
 
-
     def comma(self):
         """
         Comma acts much like the closing parentheses, loop the operator stack and
@@ -148,6 +145,11 @@ class ShuntingYard:
         except IndexError as exc:
             raise CommaError from exc
 
+    def pow(self):
+        """
+        Small function for operating ^
+        """
+        self.operator_stack.append(self.current)
 
     def end_loop(self):
         """
@@ -164,7 +166,6 @@ class ShuntingYard:
             self.the_stack.append(operator)
             print(
                 f"{''.join(self.calculation):{self.size}} -->  {' '.join(self.the_stack):10}")
-
 
     def clear_num(self):
         """
