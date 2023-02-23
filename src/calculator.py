@@ -153,7 +153,7 @@ class Calculator:
         Method for displaying variables
         """
         if not self.variables.vars:
-            print('\nNo variables added')
+            print('\nNo variables added!')
             return
         for key, value in self.variables.vars.items():
             print(f"\n{key} = {value}")
