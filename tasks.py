@@ -10,7 +10,7 @@ def coverage_report(ctx):
 
 @task
 def pylint(ctx):
-    ctx.run('pylint src/algorithms', pty=True)
+    ctx.run('pylint src/**', pty=True)
 
 @task
 def pytest(ctx):
