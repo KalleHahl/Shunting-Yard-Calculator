@@ -77,7 +77,7 @@ class TestCalculator(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as fake_output:
             self.calc.shunt('5,5+12')
         self.assertEqual(fake_output.getvalue().strip(),
-                         '5,5+12 --> \n\nIncorrect use of a comma')
+                         '5,5+12 -->            \n\nIncorrect use of a comma')
 
     def test_mismatched_parentheses_as_input(self):
         with patch('sys.stdout', new=StringIO()) as fake_output:
