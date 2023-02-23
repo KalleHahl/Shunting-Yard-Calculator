@@ -38,6 +38,10 @@ class Calculator:
                 print('Type an expression')
                 continue
 
+            if self.input == 'variables':
+                self.display_variables()
+                continue
+
             # checks if variables are used, if found, replaces them with correct values
             check_variables = self.variables.fetch_variables(self.input)
 
@@ -53,11 +57,14 @@ class Calculator:
 
     def add_variables(self):
         """
-        Function that first splits the input from =, then counts
+        Method that first splits the input from =, then counts
         correct value by calling the shunt and output functions
         and saves variable to variables class
         """
         parts = self.input.split("=")
+        if len(parts) > 2:
+            print('Incorrect input')
+            return
         self.shunt(self.variables.fetch_variables(parts[-1]))
         if self.calculation is None:
             return
@@ -118,9 +125,9 @@ class Calculator:
         """
         Prints instructions, in a very unclean way
         """
-        longest = ' Add variables by typing X=5+5, use single capital letters '
+        print3 = 'Add variables by typing X=5+5, use single capital letters'
         print2 = 'Available operators: (+, -, /, *, ^)'
-        print3 = 'Available functions: (sin, cos, tan, sqrt, min, max)'
+        longest = ' Available functions: (sin, cos, tan, sqrt, min, max, abs) '
         print4 = 'Sin, cos and tan count radians'
         print5 = 'When using min or max, divide values with a comma'
         print("╔"+len(longest)*'=' + "╗")
@@ -137,6 +144,16 @@ class Calculator:
               print4+(len(longest)-len(print4))//2*' '+' ║')
         print('║'+len(longest)*' '+'║')
         print('║'+(len(longest)-len(print3))//2*' ' +
-              print3+(len(longest)-len(print3))//2*' '+' ║')
+              print3+(len(longest)-len(print3))//2*' '+'║')
         print('║'+len(longest)*' '+'║')
         print("╚"+len(longest)*'=' + "╝")
+
+    def display_variables(self):
+        """
+        Method for displaying variables
+        """
+        if not self.variables.vars:
+            print('\nNo variables added')
+            return
+        for key, value in self.variables.vars.items():
+            print(f"\n{key} = {value}")
