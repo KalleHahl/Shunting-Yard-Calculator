@@ -27,7 +27,8 @@ class Count:
             'tan': math.tan,
             'sqrt': math.sqrt,
             'min': min,
-            'max': max
+            'max': max,
+            'abs': abs
         }
 
     def count(self):
@@ -42,7 +43,7 @@ class Count:
 
             if self.char in self.operators:
 
-                if self.char in ("sin", "cos", "tan", "sqrt"):
+                if self.char in ("sin", "cos", "tan", "sqrt", 'abs'):
                     self.functions()
                 else:
                     self.operations()

@@ -187,3 +187,13 @@ class Test_Count(unittest.TestCase):
         expression = ShuntingYard('-5+12*(-2)-(-2)^2').to_postfix()
         result = Count(expression).count()
         self.assertEqual(result, -33)
+
+    def test_abs(self):
+        expression = ShuntingYard('abs(-15)').to_postfix()
+        result = Count(expression).count()
+        self.assertEqual(result, 15)
+
+    def test_abs_longer_expression(self):
+        expression = ShuntingYard('2*4+(2+abs(-2))^2').to_postfix()
+        result = Count(expression).count()
+        self.assertEqual(result, 24)

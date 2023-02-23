@@ -179,3 +179,9 @@ class TestTo_postfix(unittest.TestCase):
 
         with self.assertRaises(CommaError):
             test.to_postfix()
+
+    def test_abs(self):
+
+        test = ShuntingYard('abs(-15)')
+        result = test.to_postfix()
+        self.assertEqual(result, deque(['-15', 'abs']))

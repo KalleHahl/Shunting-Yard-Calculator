@@ -95,7 +95,7 @@ class TestCalculator(unittest.TestCase):
         with patch.object(self.calc, 'add_variables') as mock_add_variables:
             with patch('builtins.input', side_effect=['x=5+3', 'quit']):
                 self.calc.start()
-            mock_add_variables.assert_called_once() 
+            mock_add_variables.assert_called_once()
 
     def test_start_quits_when_user_enters_quit(self):
         with patch('builtins.input', return_value='quit'):
@@ -109,7 +109,7 @@ class TestCalculator(unittest.TestCase):
                 self.calc.start()
             self.assertEqual(fake_output.getvalue().strip().split('\n')[
                              0], 'Type an expression')
-            
+
     def test_help(self):
         with patch.object(self.calc, 'instructions') as mock_instructions:
             with patch('builtins.input', side_effect=['help', 'quit']):

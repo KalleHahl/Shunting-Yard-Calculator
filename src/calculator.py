@@ -2,7 +2,7 @@ from src.algorithms.postfix import ShuntingYard
 from src.algorithms.count import Count
 from src.algorithms.variables import Variables
 from src.errors.error import (IncorrectInput, CommaError, MismatchedParentheses,
-    EmptyFunction, SquareRootOfNegative, DivisionByZero)
+                              EmptyFunction, SquareRootOfNegative, DivisionByZero)
 
 
 class Calculator:
@@ -67,7 +67,7 @@ class Calculator:
             return
         if value < 0:
             value = f"({str(value)})"
-        if parts[0].isdigit() or parts[0].islower() or len(parts[0])!=1:
+        if parts[0].isdigit() or parts[0].islower() or len(parts[0]) != 1:
             print('Use single capital letters for variables!')
             return
         self.variables.add_variable(parts[0], str(value))
@@ -114,7 +114,7 @@ class Calculator:
         except EmptyFunction:
             print('\nUsed an empty function')
 
-    def instructions(self): # pragma: no cover
+    def instructions(self):  # pragma: no cover
         """
         Prints instructions, in a very unclean way
         """
@@ -131,7 +131,7 @@ class Calculator:
               print2+(len(longest)-len(print2))//2*' '+' ║')
         print('║'+len(longest)*' '+'║')
         print('║'+(len(longest)-len(print5))//2*' ' +
-                print5+(len(longest)-len(print5))//2*' '+'║')
+              print5+(len(longest)-len(print5))//2*' '+'║')
         print('║'+len(longest)*' '+'║')
         print('║'+(len(longest)-len(print4))//2*' ' +
               print4+(len(longest)-len(print4))//2*' '+' ║')

@@ -5,7 +5,7 @@ from src.errors.error import MismatchedParentheses, EmptyFunction, CommaError, I
 class ShuntingYard:
 
     def __init__(self, string):
-        self.other_operators = 'sincostansqrtminmax'
+        self.other_operators = 'sincostansqrtminmaxabs'
         self.calculation = deque(string)
         self.operator_stack = deque()
         self.the_stack = deque()
@@ -32,7 +32,7 @@ class ShuntingYard:
         """
         self.initial_check()
         print('')
-        print(f"{''.join(self.calculation):{self.size}} --> ")
+        self.visualize()
 
         while self.calculation:
             self.current = self.calculation.popleft()
@@ -41,7 +41,7 @@ class ShuntingYard:
                 self.next = self.calculation[0]
 
             if self.current.isdigit() or self.current == '.' \
-                or self.current in self.other_operators:
+                    or self.current in self.other_operators:
 
                 self.num += self.current
                 self.previous = self.current
@@ -59,8 +59,7 @@ class ShuntingYard:
             except KeyError:
                 continue
 
-            print(
-                f"{''.join(self.calculation):{self.size}} -->  {' '.join(self.the_stack):10}")
+            self.visualize()
 
         self.end_loop()
 
@@ -164,8 +163,7 @@ class ShuntingYard:
             if operator == '(':
                 raise MismatchedParentheses
             self.the_stack.append(operator)
-            print(
-                f"{''.join(self.calculation):{self.size}} -->  {' '.join(self.the_stack):10}")
+            self.visualize()
 
     def clear_num(self):
         """
@@ -180,3 +178,7 @@ class ShuntingYard:
             else:
                 self.the_stack.append(self.num)
                 self.num = ''
+
+    def visualize(self):
+        print(
+            f"{''.join(self.calculation):{self.size}} -->  {' '.join(self.the_stack):10}")
