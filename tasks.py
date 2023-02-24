@@ -6,7 +6,12 @@ def coverage(ctx):
 
 @task(coverage)
 def coverage_report(ctx):
+    ctx.run('coverage report -m',pty=True)
     ctx.run('coverage html', pty=True)
+
+@task
+def coverage_show(ctx):
+    ctx.run("open htmlcov/index.html")
 
 @task
 def pylint(ctx):

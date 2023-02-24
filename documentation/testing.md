@@ -4,6 +4,6 @@ The algorithm test files test with all the available operators and have tests wi
 
 Coverage stats can be found here [![codecov](https://codecov.io/gh/KalleHahl/tiralabra/branch/main/graph/badge.svg?token=D9XSGLPQI0)](https://codecov.io/gh/KalleHahl/tiralabra)
 # Coverage
-You can run coverage/pytest by typing ```poetry run invoke coverage``` in the command line
+Typing ```poetry run invoke coverage-report``` into the commandline runs the pytests, prints the coverage info and writes an HTML report to htmlcov/index.html. Typing ```poetry run invoke coverage-show``` opens the html report in your browser.
 # Pylint
 Running pylint can be done by typing ```poetry run invoke pylint``` in the command line
