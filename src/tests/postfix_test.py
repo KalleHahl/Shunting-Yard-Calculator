@@ -185,3 +185,9 @@ class TestTo_postfix(unittest.TestCase):
         test = ShuntingYard('abs(-15)')
         result = test.to_postfix()
         self.assertEqual(result, deque(['-15', 'abs']))
+
+    def test_false_floating_point(self):
+
+        test = ShuntingYard('5+.5')
+        with self.assertRaises(IncorrectInput):
+            test.to_postfix()
