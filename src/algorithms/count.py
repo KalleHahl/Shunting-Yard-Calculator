@@ -54,6 +54,9 @@ class Count:
             except Exception as exc:
                 raise IncorrectInput from exc
 
+        if len(self.the_stack) != 1:
+            raise IncorrectInput
+
         return self.the_stack.pop()
 
     def functions(self):

@@ -197,3 +197,8 @@ class Test_Count(unittest.TestCase):
         expression = ShuntingYard('2*4+(2+abs(-2))^2').to_postfix()
         result = Count(expression).count()
         self.assertEqual(result, 24)
+
+    def test_incorrect_input_with_comma(self):
+        expression = ShuntingYard('(15,15)').to_postfix()
+        with self.assertRaises(IncorrectInput):
+            Count(expression).count()

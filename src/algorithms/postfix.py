@@ -52,7 +52,8 @@ class ShuntingYard:
 
             self.previous = self.current
 
-            self.clear_num()
+            if len(self.num) != 0:
+                self.clear_num()
 
             try:
                 self.function_dictionary[self.current]()
@@ -60,6 +61,7 @@ class ShuntingYard:
                 continue
 
             self.visualize()
+
 
         self.end_loop()
 
@@ -156,7 +158,7 @@ class ShuntingYard:
         and iterate the operator stack and append rest of the operators
         """
         if len(self.num) != 0:
-            self.the_stack.append(self.num)
+            self.clear_num()
 
         while len(self.operator_stack) != 0:
             operator = self.operator_stack.pop()
@@ -171,13 +173,16 @@ class ShuntingYard:
         it is found that the current char in the main loop
         is not a digit, floating point or a string
         """
-        if len(self.num) != 0:
-            if self.num in self.other_operators:
-                self.operator_stack.append(self.num)
-                self.num = ''
-            else:
-                self.the_stack.append(self.num)
-                self.num = ''
+        if self.num in self.other_operators:
+            self.operator_stack.append(self.num)
+            self.num = ''
+            return
+
+        if self.num[0] == '.':
+            raise IncorrectInput
+
+        self.the_stack.append(self.num)
+        self.num = ''
 
     def visualize(self):
         print(
