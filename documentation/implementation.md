@@ -1,9 +1,9 @@
 # Implementation
 ## Structure
-*This programs structure consists of the interface in index.py and the algorithms to_postfix and count in the algorithms folder.*
+*This programs structure consists of the interface in calculator.py and the algorithms to_postfix in the ```ShuntingYard``` class and count in the ```Count``` class. A class for variables is also included in the variables.py file*
 #### To_postfix:
 This algorithm is the heart of this project. It uses the shunting yard algorithm to parse mathematcial expressions written in infix notation into a Polish notation (postfix notation).
-The algorithm works with operators (+,-,*,/,^), unary operators (sin,cos,tan,sqrt, abs), min and max, and parentheses. Parsing is achieved by looping through the input and using two stacks, one for operators and one where the operands and operators are appended in the correct postfix notation.
+The algorithm works with operators (+,-,*,/,^), unary operators (sin,cos,tan,sqrt, abs), min, max, log and parentheses. Parsing is achieved by looping through the input and using two stacks, one for operators and one where the operands and operators are appended in the correct postfix notation.
 The idea of this algorithm is to make a mathematical expression into a linear form in which operator precedence has already been taken to account.
 #### Count:
 This algorithm is the one which produces the correct value from the postfix expression. It works by looping through the expression and appending operands into a stack, once an operator is encountered a correct operation is fetched from a dictionary and the operands are popped from the stack.

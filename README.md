@@ -17,6 +17,3 @@ Exit program by typing quit
 - [Testing](https://github.com/KalleHahl/tiralabra/blob/main/documentation/testing.md)
 - [Implementation](https://github.com/KalleHahl/tiralabra/blob/main/documentation/implementation.md)
 - [Weekly documentation](https://github.com/KalleHahl/tiralabra/blob/main/documentation/weeklydocumentation.md)
-
-
-
