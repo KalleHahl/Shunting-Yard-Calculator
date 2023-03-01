@@ -5,7 +5,7 @@ from src.errors.error import MismatchedParentheses, EmptyFunction, CommaError, I
 class ShuntingYard:
 
     def __init__(self, string):
-        self.other_operators = 'sincostansqrtminmaxabs'
+        self.other_operators = 'sincostansqrtminmaxabslog'
         self.calculation = deque(string)
         self.operator_stack = deque()
         self.the_stack = deque()
@@ -61,7 +61,6 @@ class ShuntingYard:
                 continue
 
             self.visualize()
-
 
         self.end_loop()
 

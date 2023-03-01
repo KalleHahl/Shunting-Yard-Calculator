@@ -191,3 +191,14 @@ class TestTo_postfix(unittest.TestCase):
         test = ShuntingYard('5+.5')
         with self.assertRaises(IncorrectInput):
             test.to_postfix()
+
+    def test_log(self):
+        test = ShuntingYard('log(1000,10)')
+        result = test.to_postfix()
+        self.assertEqual(result, deque(['1000', '10', 'log']))
+
+    def test_log_long(self):
+        test = ShuntingYard('log(5^2*40,(2+3)*2)')
+        result = test.to_postfix()
+        self.assertEqual(result, deque(
+            ['5', '2', '^', '40', '*', '2', '3', '+', '2', '*', 'log']))

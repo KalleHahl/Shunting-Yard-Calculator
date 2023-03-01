@@ -202,3 +202,18 @@ class Test_Count(unittest.TestCase):
         expression = ShuntingYard('(15,15)').to_postfix()
         with self.assertRaises(IncorrectInput):
             Count(expression).count()
+
+    def test_log(self):
+        expression = ShuntingYard('log(1000,10)').to_postfix()
+        result = Count(expression).count()
+        self.assertAlmostEqual(result, 3)
+
+    def test_log_expresison(self):
+        expression = ShuntingYard('((2+log(2^2,2))/2)^2').to_postfix()
+        result = Count(expression).count()
+        self.assertEqual(result, 4)
+
+    def test_incorrect_log(self):
+        expression = ShuntingYard('log(3)').to_postfix()
+        with self.assertRaises(IndexError):
+            Count(expression).count()

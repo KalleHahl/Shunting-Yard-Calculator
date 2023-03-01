@@ -21,14 +21,15 @@ class Count:
             '-': operator.sub,
             '*': operator.mul,
             '/': operator.truediv,
-            '^': operator.pow,
+            '^': math.pow,
             'sin': math.sin,
             'cos': math.cos,
             'tan': math.tan,
             'sqrt': math.sqrt,
             'min': min,
             'max': max,
-            'abs': abs
+            'abs': abs,
+            'log': math.log
         }
 
     def count(self):
@@ -85,9 +86,9 @@ class Count:
         right = self.the_stack.pop()
         left = self.the_stack.pop()
 
-        if right == 0 and self.char == '/':
-            raise DivisionByZero
-
-        value = operation(left, right)
+        try:
+            value = operation(left, right)
+        except ZeroDivisionError as exc:
+            raise DivisionByZero from exc
 
         self.the_stack.append(value)
