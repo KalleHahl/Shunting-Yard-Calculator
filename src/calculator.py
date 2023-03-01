@@ -20,7 +20,10 @@ class Calculator:
         """
         while True:
 
-            self.input = input('\ncalculation: \n\n')
+            try:
+                self.input = input('\ncalculation: \n\n')
+            except UnicodeDecodeError:
+                print('Error, please type again')
 
             if self.input == 'quit':
                 print('\nBye!')
@@ -62,7 +65,7 @@ class Calculator:
         and saves variable to variables class
         """
         parts = self.input.split("=")
-        if len(parts) > 2:
+        if len(parts) != 2 or parts[-1] == '':
             print('Incorrect input')
             return
         self.shunt(self.variables.fetch_variables(parts[-1]))
@@ -125,26 +128,28 @@ class Calculator:
         """
         Prints instructions, in a very unclean way
         """
-        print3 = 'Add variables by typing X=5+5, use single capital letters'
-        print2 = 'Available operators: (+, -, /, *, ^)'
-        longest = ' Available functions: (sin, cos, tan, sqrt, min, max, abs) '
-        print4 = 'Sin, cos and tan count radians'
-        print5 = 'When using min or max, divide values with a comma'
+        print3 = ' Add variables by typing X=5+5, use single capital letters'
+        print2 = ' Available operators: (+, -, /, *, ^)'
+        longest = ' Available functions: (sin, cos, tan, sqrt, min, max, abs, log) '
+        print4 = ' Sin, cos and tan count radians'
+        print5 = ' When using min or max, divide values with a comma'
+        print6 = ' Log function is used by typing log(value,base)'
+        print7 = ' Use functions with parentheses e.g. sin(4)'
         print("╔"+len(longest)*'=' + "╗")
         print('║'+len(longest)*' '+'║')
         print('║'+longest+'║')
         print('║'+len(longest)*' '+'║')
-        print('║'+(len(longest)-len(print2))//2*' ' +
-              print2+(len(longest)-len(print2))//2*' '+' ║')
+        print('║'+print2+(len(longest)-len(print2))*' '+'║')
         print('║'+len(longest)*' '+'║')
-        print('║'+(len(longest)-len(print5))//2*' ' +
-              print5+(len(longest)-len(print5))//2*' '+'║')
+        print('║'+print7+(len(longest)-len(print7))*' '+'║')
         print('║'+len(longest)*' '+'║')
-        print('║'+(len(longest)-len(print4))//2*' ' +
-              print4+(len(longest)-len(print4))//2*' '+' ║')
+        print('║'+print5+(len(longest)-len(print5))*' '+'║')
         print('║'+len(longest)*' '+'║')
-        print('║'+(len(longest)-len(print3))//2*' ' +
-              print3+(len(longest)-len(print3))//2*' '+'║')
+        print('║'+print4+(len(longest)-len(print4))*' '+'║')
+        print('║'+len(longest)*' '+'║')
+        print('║'+print6+(len(longest)-len(print6))*' '+'║')
+        print('║'+len(longest)*' '+'║')
+        print('║'+print3+(len(longest)-len(print3))*' '+'║')
         print('║'+len(longest)*' '+'║')
         print("╚"+len(longest)*'=' + "╝")
 
