@@ -202,3 +202,8 @@ class TestTo_postfix(unittest.TestCase):
         result = test.to_postfix()
         self.assertEqual(result, deque(
             ['5', '2', '^', '40', '*', '2', '3', '+', '2', '*', 'log']))
+
+    def test_incorrect_comma_again(self):
+        test = ShuntingYard('log(,4,4)')
+        with self.assertRaises(CommaError):
+            test.to_postfix()

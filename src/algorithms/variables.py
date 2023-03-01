@@ -1,10 +1,8 @@
-"""
-    Class for variable storing and fetcing
-"""
-
 
 class Variables:
-
+    """
+    Class for variable storing and fetcing
+    """
     def __init__(self):
         self.vars = {}
 

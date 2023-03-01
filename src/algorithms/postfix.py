@@ -36,7 +36,7 @@ class ShuntingYard:
 
         while self.calculation:
             self.current = self.calculation.popleft()
-
+            self.visualize()
             if self.calculation:
                 self.next = self.calculation[0]
 
@@ -47,10 +47,10 @@ class ShuntingYard:
                 self.previous = self.current
                 continue
 
-            if self.current in '/+-*^' and self.previous in '/+-*^':
+
+            if self.current in '/+-*^,' and self.previous in '/+-*^,':
                 raise IncorrectInput
 
-            self.previous = self.current
 
             if len(self.num) != 0:
                 self.clear_num()
@@ -60,7 +60,7 @@ class ShuntingYard:
             except KeyError:
                 continue
 
-            self.visualize()
+            self.previous = self.current
 
         self.end_loop()
 
@@ -139,6 +139,8 @@ class ShuntingYard:
         Comma acts much like the closing parentheses, loop the operator stack and
         append to the_stack until opening parentheses is found
         """
+        if self.next == ')' or self.previous == '(':
+            raise CommaError
         try:
             while self.operator_stack[-1] != '(':
                 self.the_stack.append(self.operator_stack.pop())

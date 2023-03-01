@@ -26,3 +26,4 @@ I've done some research and encountered ways to store the operator precedences i
 - [Comp Sci in 5: Shunting Yard Algorithm](https://www.youtube.com/watch?v=Wz85Hiwi5MY)
 - [Comp Sci in 5: Post Fix Stack Evaluator](https://www.youtube.com/watch?v=bebqXO8H4eA)
 - [Shunting yard wiki](https://en.wikipedia.org/wiki/Shunting_yard_algorithm)
+
