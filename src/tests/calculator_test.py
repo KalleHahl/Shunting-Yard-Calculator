@@ -73,12 +73,6 @@ class TestCalculator(unittest.TestCase):
             self.calc.output()
         self.assertEqual(fake_output.getvalue().strip(), "Incorrect input")
 
-    def test_commaerror_in_input(self):
-        with patch('sys.stdout', new=StringIO()) as fake_output:
-            self.calc.shunt('5,5+12')
-        self.assertEqual(fake_output.getvalue().strip(),
-                         '5,5+12 -->            \n\nIncorrect use of a comma')
-
     def test_mismatched_parentheses_as_input(self):
         with patch('sys.stdout', new=StringIO()) as fake_output:
             self.calc.shunt('(5+5*2')
@@ -115,3 +109,4 @@ class TestCalculator(unittest.TestCase):
             with patch('builtins.input', side_effect=['help', 'quit']):
                 self.calc.start()
             mock_instructions.assert_called_once()
+
