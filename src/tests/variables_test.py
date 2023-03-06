@@ -1,6 +1,7 @@
 from src.algorithms.variables import Variables
 import unittest
-
+from io import StringIO
+from unittest.mock import patch
 
 class Test_variables(unittest.TestCase):
 
@@ -23,3 +24,17 @@ class Test_variables(unittest.TestCase):
     def test_fetch_with_no_variables(self):
         result = self.variables.fetch_variables('5+10^2-sin(4)')
         self.assertEqual(result, '5+10^2-sin(4)')
+
+    def test_display(self):
+        expected_output = "\nX = 5\n\nY = 16\n"
+        with patch('sys.stdout', new = StringIO()) as fake_output:
+            self.variables.display()
+            self.assertEqual(fake_output.getvalue(), expected_output)
+    
+    def test_display_no_variables(self):
+        self.variables.vars = {}
+        expected_output = "\nNo variables added!\n"
+        with patch('sys.stdout', new = StringIO()) as fake_output:
+            self.variables.display()
+            self.assertEqual(fake_output.getvalue(), expected_output)
+        

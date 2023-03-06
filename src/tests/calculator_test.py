@@ -25,7 +25,8 @@ class TestCalculator(unittest.TestCase):
         self.calc.input = "z = 2 +"
         with patch('sys.stdout', new=StringIO()) as fake_output:
             self.calc.add_variables()
-        self.assertEqual(fake_output.getvalue().strip(), 'Incorrect input')
+        self.assertEqual(fake_output.getvalue().strip(),
+                         'Use single capital letters for variables! No spaces.')
 
     def test_output(self):
         self.calc.calculation = deque(['3', '4', '+'])
@@ -44,7 +45,8 @@ class TestCalculator(unittest.TestCase):
     def test_shunt_invalid_input(self):
         with patch('sys.stdout', new=StringIO()) as fake_output:
             self.calc.shunt('2 + *')
-        self.assertEqual(fake_output.getvalue().strip(), 'Incorrect input')
+        self.assertEqual(' '.join(fake_output.getvalue(
+        ).strip().split(' ')[-2:]), '\n\nIncorrect input')
 
     def test_sqrt_negative(self):
         self.calc.calculation = deque(['-25', 'sqrt'])
@@ -109,4 +111,3 @@ class TestCalculator(unittest.TestCase):
             with patch('builtins.input', side_effect=['help', 'quit']):
                 self.calc.start()
             mock_instructions.assert_called_once()
-

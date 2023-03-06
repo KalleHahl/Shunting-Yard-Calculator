@@ -103,12 +103,6 @@ class TestTo_postfix(unittest.TestCase):
         self.assertEqual(result, deque(
             ['9', '9', '4', 'tan', '*', '5', '-', '+']))
 
-    def test_incorrect_input(self):
-
-        test = ShuntingYard('5+5+5+')
-        with self.assertRaises(IncorrectInput):
-            test.to_postfix()
-
     def test_another_incorrect_input(self):
 
         test = ShuntingYard('5++5')
@@ -207,3 +201,13 @@ class TestTo_postfix(unittest.TestCase):
         test = ShuntingYard('log(,4,4)')
         with self.assertRaises(CommaError):
             test.to_postfix()
+
+    def test_eulers(self):
+        test = ShuntingYard('10+e')
+        result = test.to_postfix()
+        self.assertEqual(result, deque(['10', 'e', '+']))
+
+    def test_pi(self):
+        test = ShuntingYard('pi+15')
+        result = test.to_postfix()
+        self.assertEqual(result, deque(['pi', '15', '+']))

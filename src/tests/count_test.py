@@ -217,3 +217,23 @@ class Test_Count(unittest.TestCase):
         expression = ShuntingYard('log(3)').to_postfix()
         with self.assertRaises(IndexError):
             Count(expression).count()
+
+    def test_ln(self):
+        expression = ShuntingYard('ln(10)').to_postfix()
+        result = Count(expression).count()
+        self.assertEqual(result, 2.302585092994046)
+
+    def test_incorrect_plusses(self):
+        expression = ShuntingYard('5+5+5+').to_postfix()
+        with self.assertRaises(IndexError):
+            Count(expression).count()
+
+    def test_pi(self):
+        expression = ShuntingYard('pi+12').to_postfix()
+        result = Count(expression).count()
+        self.assertEqual(result, 15.141592653589793)
+
+    def test_e(self):
+        expression = ShuntingYard('2+e').to_postfix()
+        result = Count(expression).count()
+        self.assertEqual(result, 4.718281828459045)
