@@ -29,20 +29,20 @@ class Calculator:
                 print('\nBye!')
                 break
 
-            if self.input == 'help':
+            elif self.input == 'help':
                 self.instructions()
                 continue
 
-            if '=' in self.input:
+            elif '=' in self.input:
                 self.add_variables()
                 continue
 
-            if self.input == '':
+            elif self.input == '':
                 print('Type an expression')
                 continue
 
-            if self.input == 'variables':
-                self.display_variables()
+            elif self.input == 'variables':
+                self.variables.display()
                 continue
 
             # checks if variables are used, if found, replaces them with correct values
@@ -62,24 +62,34 @@ class Calculator:
         """
         Method that first splits the input from =, then counts
         correct value by calling the shunt and output functions
-        and saves variable to variables class
+        and saves variable to variables class. If input is incorrect
+        the variable doesnt get added and the function return None
         """
         parts = self.input.split("=")
+        parts[0] = parts[0].strip()
+
         if len(parts) != 2 or parts[-1] == '':
             print('Incorrect input')
             return
+
+        if parts[0].isdigit() or parts[0].islower() or len(parts[0]) != 1:
+            print('Use single capital letters for variables! No spaces.')
+            return
+
         self.shunt(self.variables.fetch_variables(parts[-1]))
+
         if self.calculation is None:
             return
+
         value = self.output()
+
         if value is None:
             self.calculation = None
             return
+
         if value < 0:
             value = f"({str(value)})"
-        if parts[0].isdigit() or parts[0].islower() or len(parts[0]) != 1:
-            print('Use single capital letters for variables!')
-            return
+
         self.variables.add_variable(parts[0], str(value))
         print(f"{parts[0]} = {value}\n")
         print('Variable added!')
@@ -124,17 +134,18 @@ class Calculator:
         except EmptyFunction:
             print('\nUsed an empty function')
 
-    def instructions(self):  # pragma: no cover
+    def instructions(self):
         """
         Prints instructions, in a very unclean way
         """
         print3 = ' Add variables by typing X=5+5, use single capital letters'
         print2 = ' Available operators: (+, -, /, *, ^)'
-        longest = ' Available functions: (sin, cos, tan, sqrt, min, max, abs, log) '
+        longest = ' Available functions: (sin, cos, tan, sqrt, min, max, abs, log, ln) '
         print4 = ' Sin, cos and tan count radians'
         print5 = ' When using min or max, divide values with a comma'
         print6 = ' Log function is used by typing log(value,base)'
         print7 = ' Use functions with parentheses e.g. sin(4)'
+        print8 = ' ln function only takes one argument'
         print("╔"+len(longest)*'=' + "╗")
         print('║'+len(longest)*' '+'║')
         print('║'+longest+'║')
@@ -149,16 +160,8 @@ class Calculator:
         print('║'+len(longest)*' '+'║')
         print('║'+print6+(len(longest)-len(print6))*' '+'║')
         print('║'+len(longest)*' '+'║')
+        print('║'+print8+(len(longest)-len(print8))*' '+'║')
+        print('║'+len(longest)*' '+'║')
         print('║'+print3+(len(longest)-len(print3))*' '+'║')
         print('║'+len(longest)*' '+'║')
         print("╚"+len(longest)*'=' + "╝")
-
-    def display_variables(self):
-        """
-        Method for displaying variables
-        """
-        if not self.variables.vars:
-            print('\nNo variables added!')
-            return
-        for key, value in self.variables.vars.items():
-            print(f"\n{key} = {value}")
