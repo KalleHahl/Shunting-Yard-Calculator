@@ -146,6 +146,7 @@ class Calculator:
         print6 = ' Log function is used by typing log(value,base)'
         print7 = ' Use functions with parentheses e.g. sin(4)'
         print8 = ' ln function only takes one argument'
+        print9 = ' Available constants: (pi, e)'
         print("╔"+len(longest)*'=' + "╗")
         print('║'+len(longest)*' '+'║')
         print('║'+longest+'║')
@@ -163,5 +164,7 @@ class Calculator:
         print('║'+print8+(len(longest)-len(print8))*' '+'║')
         print('║'+len(longest)*' '+'║')
         print('║'+print3+(len(longest)-len(print3))*' '+'║')
+        print('║'+len(longest)*' '+'║')
+        print('║'+print9+(len(longest)-len(print9))*' '+'║')
         print('║'+len(longest)*' '+'║')
         print("╚"+len(longest)*'=' + "╝")

@@ -157,8 +157,7 @@ class ShuntingYard:
         """
         if len(self.num) != 0:
             self.clear_num()
-            self.visualize()
-
+        self.visualize()
         while len(self.operator_stack) != 0:
             operator = self.operator_stack.pop()
             if operator == '(':
@@ -166,12 +165,18 @@ class ShuntingYard:
             self.the_stack.append(operator)
             self.visualize()
 
+
     def clear_num(self):
         """
         This function appends and clears the num variable after
         it is found that the current char in the main loop
         is not a digit, floating point or a string
         """
+        if self.num in self.constants:
+            self.the_stack.append(self.num)
+            self.num = ''
+            return
+
         if self.num in self.other_operators:
             self.operator_stack.append(self.num)
             self.num = ''
