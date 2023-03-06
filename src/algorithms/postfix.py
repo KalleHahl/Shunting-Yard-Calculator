@@ -5,7 +5,8 @@ from src.errors.error import MismatchedParentheses, EmptyFunction, CommaError, I
 class ShuntingYard:
 
     def __init__(self, string):
-        self.other_operators = 'sincostansqrtminmaxabslog'
+        self.other_operators = 'sincostansqrtminmaxabsloglnpe'
+        self.constants = 'pie'
         self.calculation = deque(string)
         self.operator_stack = deque()
         self.the_stack = deque()
@@ -32,11 +33,11 @@ class ShuntingYard:
         """
         self.initial_check()
         print('')
-        self.visualize()
 
         while self.calculation:
-            self.current = self.calculation.popleft()
             self.visualize()
+            self.current = self.calculation.popleft()
+
             if self.calculation:
                 self.next = self.calculation[0]
 
@@ -47,10 +48,8 @@ class ShuntingYard:
                 self.previous = self.current
                 continue
 
-
             if self.current in '/+-*^,' and self.previous in '/+-*^,':
                 raise IncorrectInput
-
 
             if len(self.num) != 0:
                 self.clear_num()
@@ -63,16 +62,12 @@ class ShuntingYard:
             self.previous = self.current
 
         self.end_loop()
-
         return self.the_stack
 
     def initial_check(self):
         """
-        Checks if the input starts with a negative or ends in an operator
+        Checks if the input starts with a negative
         """
-        if not self.calculation[-1].isdigit() and self.calculation[-1] not in '()':
-            raise IncorrectInput
-
         if self.calculation[0] == '-':
             self.num = self.calculation.popleft()
 
@@ -85,8 +80,10 @@ class ShuntingYard:
         while self.operator_stack and self.operator_stack[-1] in '*/^':
             operator = self.operator_stack.pop()
             self.the_stack.append(operator)
+
         if self.operator_stack and self.operator_stack[-1] == '-':
             self.the_stack.append(self.operator_stack.pop())
+
         self.operator_stack.append(self.current)
 
     def precedence_2(self):
@@ -160,6 +157,7 @@ class ShuntingYard:
         """
         if len(self.num) != 0:
             self.clear_num()
+            self.visualize()
 
         while len(self.operator_stack) != 0:
             operator = self.operator_stack.pop()
@@ -187,4 +185,4 @@ class ShuntingYard:
 
     def visualize(self):
         print(
-            f"{''.join(self.calculation):{self.size}} -->  {' '.join(self.the_stack):10}")
+            f"{''.join(self.calculation):{self.size}} -->  {' '.join(self.the_stack):{self.size*2}}")

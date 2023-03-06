@@ -29,7 +29,12 @@ class Count:
             'min': min,
             'max': max,
             'abs': abs,
-            'log': math.log
+            'log': math.log,
+            'ln': math.log
+        }
+        self.constants = {
+            'pi': math.pi,
+            'e': math.e
         }
 
     def count(self):
@@ -44,10 +49,14 @@ class Count:
 
             if self.char in self.operators:
 
-                if self.char in ("sin", "cos", "tan", "sqrt", 'abs'):
+                if self.char in ("sin", "cos", "tan", "sqrt", 'abs', 'ln'):
                     self.functions()
                 else:
                     self.operations()
+                continue
+
+            elif self.char in self.constants:
+                self.the_stack.append(self.constants[self.char])
                 continue
 
             try:
