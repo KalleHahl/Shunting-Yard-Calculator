@@ -211,7 +211,7 @@ class TestTo_postfix(unittest.TestCase):
         test = ShuntingYard('pi+15')
         result = test.to_postfix()
         self.assertEqual(result, deque(['pi', '15', '+']))
-    
+
     def test_incorrect_input_bracket(self):
         test = ShuntingYard('5+[5')
         with self.assertRaises(IncorrectInput):

@@ -237,3 +237,13 @@ class Test_Count(unittest.TestCase):
         expression = ShuntingYard('2+e').to_postfix()
         result = Count(expression).count()
         self.assertEqual(result, 4.718281828459045)
+    
+    def test_incorrect_ln(self):
+        expression = ShuntingYard('ln(0)').to_postfix()
+        with self.assertRaises(ValueError):
+            Count(expression).count()
+    
+    def test_incorrect_log_value_error(self):
+        expression = ShuntingYard('log(0,0)').to_postfix()
+        with self.assertRaises(ValueError):
+            Count(expression).count()
