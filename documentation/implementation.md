@@ -2,8 +2,8 @@
 ## Structure
 *This programs structure consists of the interface in calculator.py and the algorithms to_postfix in the ```ShuntingYard``` class and count in the ```Count``` class. A class for variables is also included in the variables.py file*
 #### To_postfix:
-This algorithm is the heart of this project. It uses the shunting yard algorithm to parse mathematcial expressions written in infix notation into a Polish notation (postfix notation).
-The algorithm works with operators (+,-,*,/,^), unary operators (sin,cos,tan,sqrt, abs), min, max, log and parentheses. Parsing is achieved by looping through the input and using two stacks, one for operators and one where the operands and operators are appended in the correct postfix notation.
+This algorithm is the heart of this project. It uses the shunting yard algorithm to parse mathematcial expressions written in infix notation into a reverse Polish notation (postfix notation).
+The algorithm works with operators (+,-,*,/,^), unary operators (sin,cos,tan,sqrt,abs,ln), min, max, log and parentheses. Parsing is achieved by looping through the input and using two stacks, one for operators and one where the operands and operators are appended in the correct postfix notation.
 The idea of this algorithm is to make a mathematical expression into a linear form in which operator precedence has already been taken to account.
 #### Count:
 This algorithm is the one which produces the correct value from the postfix expression. It works by looping through the expression and appending operands into a stack, once an operator is encountered a correct operation is fetched from a dictionary and the operands are popped from the stack.
@@ -20,7 +20,7 @@ This ensures that even in the worst-case scenario, the time complexity remains O
 ## Space complexity
 Both of the algorithms have a space complexity of O(n) where n is the length of the expression.
 ## What to improve?
-I've done some research and encountered ways to store the operator precedences in a dictionary. This would reduce the amount of if-statements and make the code easier to read.
+Tokenizing the expression before inputting it into the shunting yard algorithm. This means that instead of looping through every character in the expression, the algorithm would take a list as an input, where each element is a separate token (operator or operand) reducing the time used by the shunting yard algo.
 ## Sources:
 - [Infix to reverse polish using a stack](https://www.youtube.com/watch?v=LQ-iW8jm6Mk)
 - [Comp Sci in 5: Shunting Yard Algorithm](https://www.youtube.com/watch?v=Wz85Hiwi5MY)
