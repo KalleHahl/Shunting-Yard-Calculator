@@ -1,22 +1,25 @@
 from collections import deque
-from src.errors.error import MismatchedParentheses, EmptyFunction, CommaError, IncorrectInput
 from string import ascii_letters
+from src.errors.error import MismatchedParentheses, EmptyFunction, CommaError, IncorrectInput
 
 
 class ShuntingYard:
+    """
+    Takes an mathematical expression as argument
+    """
 
     def __init__(self, string):
-        self.other_operators = ['sin', 'cos', 'tan',
-                                'sqrt', 'min', 'max', 'log', 'ln', 'abs']
+        self.functions = ['sin', 'cos', 'tan',
+                          'sqrt', 'min', 'max', 'log', 'ln', 'abs']
         self.calculation = deque(string)
-        self.operator_stack = deque()
-        self.the_stack = deque()
+        self.operator_stack = deque()  # Stack for temporarily storing operators
+        self.the_stack = deque()  # Main stack where the postfix expression is parsed
         self.current = ''
-        self.num = ''
+        self.num = '' # Stores digits or strings
         self.previous = ''
         self.next = ''
         self.size = len(string)
-        self.function_dictionary = {
+        self.operator_action = {
             '+': self.precedence_1,
             '-': self.precedence_1,
             '*': self.precedence_2,
@@ -59,9 +62,9 @@ class ShuntingYard:
                 self.clear_num()
 
             try:
-                self.function_dictionary[self.current]()
-            except KeyError:
-                raise IncorrectInput
+                self.operator_action[self.current]()
+            except KeyError as exc:
+                raise IncorrectInput from exc
 
             self.previous = self.current
 
@@ -103,7 +106,7 @@ class ShuntingYard:
 
     def opening_parentheses(self):
         """
-        Immediately check is next char is a negative mark and adds it to the num
+        Immediately checks if next char is a negative mark and if it is, then adds it to the num
         variable. Then checks if the next char is a closing parentheses and raises
         an error if it is. Otherwise just appends the opening parentheses to
         the operator stack
@@ -116,7 +119,7 @@ class ShuntingYard:
 
     def closing_parentheses(self):
         """
-        Loops the operatorstack, pops and adds the operator from operator_stack to
+        Loops the operatorstack, pops and adds the operators from operator_stack to
         the_stack until closing parentheses is found. If not found then an error is
         raised. If ( is found, if the operator on top of the operator_stack is
         a function, it is also popped onto the_stack
@@ -129,7 +132,7 @@ class ShuntingYard:
 
             if operator == '(':
 
-                if self.operator_stack and self.operator_stack[-1] in self.other_operators:
+                if self.operator_stack and self.operator_stack[-1] in self.functions:
                     self.the_stack.append(self.operator_stack.pop())
                 break
 
@@ -150,14 +153,17 @@ class ShuntingYard:
 
     def pow(self):
         """
-        Small function for operating ^
+        Small function for operating ^, pow-operator gets appended onto
+        the_stack, no further actions need to be taken since it is the highest
+        precedence
         """
         self.operator_stack.append(self.current)
 
     def end_loop(self):
         """
         After the expression has been iterated, append the num variable onto the_stack
-        and iterate the operator stack and append rest of the operators
+        and iterate the operator stack and append rest of the operators onto the_stack.
+        Raises error if opening parentheses is found.
         """
         if len(self.num) != 0:
             self.clear_num()
@@ -173,9 +179,11 @@ class ShuntingYard:
         """
         This function appends and clears the num variable after
         it is found that the current char in the main loop
-        is not a digit, floating point or a string
+        is not a digit, floating point or a string. If the string in the
+        variable is in the self.functions list, it gets appended onto the operator_stack,
+        otherwise it is appended onto the_stack.
         """
-        if self.num in self.other_operators:
+        if self.num in self.functions:
             self.operator_stack.append(self.num)
             self.num = ''
             return
@@ -187,5 +195,8 @@ class ShuntingYard:
         self.num = ''
 
     def visualize(self):
+        """
+        Small function for visualization
+        """
         print(
             f"{''.join(self.calculation):{self.size}} -->  {' '.join(self.the_stack):{self.size*2}}")

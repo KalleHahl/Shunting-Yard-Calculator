@@ -8,6 +8,9 @@ class Count:
     """
     Class for iterating the given list and doing operations based on the popped character.
     End result is the correct value for the given expression.
+
+    Arggs:
+        deque of postfixn notation
     """
 
     def __init__(self, expression):
@@ -41,7 +44,10 @@ class Count:
         """
         Main function, loops the deque and pops one index at a time.
         If popped character is an operation, one of two functions is called,
-        else character is appended to the_stack
+        else character is appended to the_stack. If popped charecter is neither,
+        an error is raised.
+
+        Returns the calculated value
         """
         while len(self.expression) != 0:
 
@@ -55,7 +61,7 @@ class Count:
                     self.operations()
                 continue
 
-            elif self.char in self.constants:
+            if self.char in self.constants:
                 self.the_stack.append(self.constants[self.char])
                 continue
 
@@ -79,16 +85,21 @@ class Count:
         number = self.the_stack.pop()
         try:
             value = operation(number)
-        except Exception as exc:
-            raise SquareRootOfNegative from exc
 
+        except ValueError as exc:
+            if self.char == 'sqrt':
+                raise SquareRootOfNegative from exc
+
+            raise ValueError from exc
         self.the_stack.append(value)
 
     def operations(self):
         """
-        If the given character is an operation like */^+-max,min, then operation is fetched
-        from the dictionary, the first digit popped from the_stack is for the right side
-        and the second for the left. After operating these digits the result is then appended
+        If the given character is an operator or a binary function (max,min,log)
+        then operation is fetched from the dictionary,
+        the first digit popped from the_stack is for the right side
+        and the second for the left.
+        After operating these digits the result is then appended
         back ontop of the_stack
         """
         operation = self.operators.get(self.char)
@@ -99,5 +110,6 @@ class Count:
             value = operation(left, right)
         except ZeroDivisionError as exc:
             raise DivisionByZero from exc
+
 
         self.the_stack.append(value)
