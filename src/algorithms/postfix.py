@@ -1,12 +1,13 @@
 from collections import deque
 from src.errors.error import MismatchedParentheses, EmptyFunction, CommaError, IncorrectInput
+from string import ascii_letters
 
 
 class ShuntingYard:
 
     def __init__(self, string):
-        self.other_operators = 'sincostansqrtminmaxabsloglnpe'
-        self.constants = 'pie'
+        self.other_operators = ['sin', 'cos', 'tan',
+                                'sqrt', 'min', 'max', 'log', 'ln', 'abs']
         self.calculation = deque(string)
         self.operator_stack = deque()
         self.the_stack = deque()
@@ -38,11 +39,14 @@ class ShuntingYard:
             self.visualize()
             self.current = self.calculation.popleft()
 
+            if self.current == ' ':
+                continue
+
             if self.calculation:
                 self.next = self.calculation[0]
 
             if self.current.isdigit() or self.current == '.' \
-                    or self.current in self.other_operators:
+                    or self.current in ascii_letters:
 
                 self.num += self.current
                 self.previous = self.current
@@ -57,7 +61,7 @@ class ShuntingYard:
             try:
                 self.function_dictionary[self.current]()
             except KeyError:
-                continue
+                raise IncorrectInput
 
             self.previous = self.current
 
@@ -165,18 +169,12 @@ class ShuntingYard:
             self.the_stack.append(operator)
             self.visualize()
 
-
     def clear_num(self):
         """
         This function appends and clears the num variable after
         it is found that the current char in the main loop
         is not a digit, floating point or a string
         """
-        if self.num in self.constants:
-            self.the_stack.append(self.num)
-            self.num = ''
-            return
-
         if self.num in self.other_operators:
             self.operator_stack.append(self.num)
             self.num = ''

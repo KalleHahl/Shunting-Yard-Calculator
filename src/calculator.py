@@ -55,7 +55,7 @@ class Calculator:
             value = self.output()
 
             if value is not None:
-                print(f"\n= {value}\n")
+                print(f"\n= {value}")
             self.calculation = None
 
     def add_variables(self):

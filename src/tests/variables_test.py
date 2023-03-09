@@ -3,6 +3,7 @@ import unittest
 from io import StringIO
 from unittest.mock import patch
 
+
 class Test_variables(unittest.TestCase):
 
     def setUp(self):
@@ -27,14 +28,13 @@ class Test_variables(unittest.TestCase):
 
     def test_display(self):
         expected_output = "\nX = 5\n\nY = 16\n"
-        with patch('sys.stdout', new = StringIO()) as fake_output:
+        with patch('sys.stdout', new=StringIO()) as fake_output:
             self.variables.display()
             self.assertEqual(fake_output.getvalue(), expected_output)
-    
+
     def test_display_no_variables(self):
         self.variables.vars = {}
         expected_output = "\nNo variables added!\n"
-        with patch('sys.stdout', new = StringIO()) as fake_output:
+        with patch('sys.stdout', new=StringIO()) as fake_output:
             self.variables.display()
             self.assertEqual(fake_output.getvalue(), expected_output)
-        
