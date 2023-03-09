@@ -117,11 +117,17 @@ class Calculator:
         except OverflowError:
             print('\nThe value of the given calculation is too big')
             return None
+        except ValueError:
+            print('\nLogarithm error')
+            return None
 
     def shunt(self, expression):
         """
         Transfers the expressions into a postfix form by calling to_postfix from the Shunting
         yard class, deals with raised errors
+
+        Arrgs:
+            String
         """
         try:
             self.calculation = ShuntingYard(expression).to_postfix()
