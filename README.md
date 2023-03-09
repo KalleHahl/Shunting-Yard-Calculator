@@ -16,4 +16,5 @@ Exit program by typing quit
 - [Project definition](https://github.com/KalleHahl/tiralabra/blob/main/documentation/definition.md)
 - [Testing](https://github.com/KalleHahl/tiralabra/blob/main/documentation/testing.md)
 - [Implementation](https://github.com/KalleHahl/tiralabra/blob/main/documentation/implementation.md)
+- [Instructions](https://github.com/KalleHahl/tiralabra/blob/main/documentation/instructions.md)
 - [Weekly documentation](https://github.com/KalleHahl/tiralabra/blob/main/documentation/weeklydocumentation.md)
