@@ -1,5 +1,5 @@
 # Installation:
-Clone this reposirotry into your desired directory by running the command ```git clone https://github.com/KalleHahl/tiralabra```.
+Clone this reposirotry into your desired directory by running the command ```git clone https://github.com/KalleHahl/tiralabra``` or download and extract the zip-file from releases page.
 Install dependencies by running ```poetry install```.
 # Start:
 Start the program by running ```poetry run invoke start``` in the command line, you are now ready to type inputs. For instructions regarding functions and inputs, type 
